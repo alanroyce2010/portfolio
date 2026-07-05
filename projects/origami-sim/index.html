@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>origami_sim — Alan Royce Gabriel</title>
+<title>origami_sim · Alan Royce Gabriel</title>
 <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
@@ -28,13 +28,13 @@
     <h1>origami_sim: A GPU Origami Physics Simulator, From Scratch</h1>
     <p class="subtitle">
       A from-scratch Python reimplementation of Ghassaei, Demaine &amp;
-      Gershenfeld's GPU origami simulation method — the engine behind
-      <a href="https://origamisimulator.org" target="_blank" rel="noopener">Origami Simulator</a> —
+      Gershenfeld's GPU origami simulation method (the engine behind
+      <a href="https://origamisimulator.org" target="_blank" rel="noopener">Origami Simulator</a>),
       built to validate crease patterns generated elsewhere in the thesis work.
     </p>
     <div class="meta-row">
       <div><strong>Role</strong>Sole researcher &amp; implementer</div>
-      <div><strong>Status</strong>Complete — 118 tests passing</div>
+      <div><strong>Status</strong>Complete, 118 tests passing</div>
       <div><strong>Stack</strong>NumPy, Taichi (GPU), FOLD/SVG I/O</div>
     </div>
     <div class="links">
@@ -49,7 +49,7 @@
   <p>
     Turns a flat crease pattern into a triangulated mesh of point-masses joined
     by springs, then runs a fast, fully parallel explicit physics loop until it
-    settles into its folded 3D shape — no global matrix solve, so the method
+    settles into its folded 3D shape: no global matrix solve, so the method
     maps cleanly onto a GPU. Built incrementally: a readable NumPy reference
     implementation first, then a Taichi GPU port matched to it to round-off,
     then an interactive viewer and real crease-pattern (SVG) import.
@@ -68,16 +68,16 @@
 
   <h2>Under the hood</h2>
   <ul>
-    <li><strong>Four force types</strong> from the source paper — axial (beam springs), crease (dihedral torsion springs), face (interior-angle shear), and viscous damping — every one finite-difference gradient validated.</li>
-    <li><strong>Four pluggable integrators</strong> — symplectic Euler, velocity Verlet (default), RK4, and a matrix-free implicit Euler solver via conjugate gradient with optional adaptive timestep. Verlet is stable at ~2&times; Euler's timestep; implicit at ~6&times;+.</li>
+    <li><strong>Four force types</strong> from the source paper: axial (beam springs), crease (dihedral torsion springs), face (interior-angle shear), and viscous damping, every one finite-difference gradient validated.</li>
+    <li><strong>Four pluggable integrators</strong>: symplectic Euler, velocity Verlet (default), RK4, and a matrix-free implicit Euler solver via conjugate gradient with optional adaptive timestep. Verlet is stable at ~2&times; Euler's timestep; implicit at ~6&times;+.</li>
     <li><strong>A GPU port in Taichi</strong> matching the NumPy reference to round-off, reproducing the source paper's Fig. 9 scaling result: ~78&times; faster at 33k nodes.</li>
-    <li><strong>An interactive viewer</strong> — fold by hand, tune stiffness/damping live, watch the strain heatmap update in real time.</li>
+    <li><strong>An interactive viewer</strong>: fold by hand, tune stiffness/damping live, watch the strain heatmap update in real time.</li>
     <li><strong>FOLD and SVG I/O</strong>, including color-coded crease-type import from SVG with planar face-finding to rebuild the mesh.</li>
   </ul>
 
   <figure>
     <img src="../../images/origami-sim/accordion.gif" alt="A simple accordion fold pattern folding rigidly">
-    <figcaption>A clean rigid accordion fold — one of the simplest validation patterns.</figcaption>
+    <figcaption>A clean rigid accordion fold, one of the simplest validation patterns.</figcaption>
   </figure>
 
   <div class="callout">
@@ -91,7 +91,7 @@
 
 <footer class="site">
   <div class="wrap">
-    &copy; 2026 Alan Royce Gabriel. Built with plain HTML/CSS — no framework, no tracking.
+    &copy; 2026 Alan Royce Gabriel. Built with plain HTML/CSS, no framework, no tracking.
   </div>
 </footer>
 

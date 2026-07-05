@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>origami-diffuse — Alan Royce Gabriel</title>
+<title>origami-diffuse · Alan Royce Gabriel</title>
 <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
@@ -29,7 +29,7 @@
     <p class="subtitle">
       A diffusion model that generates novel origami crease patterns while
       staying on the vanishingly small manifold of patterns that actually fold
-      flat — in the lineage of DiffuseBot (Wang et al., NeurIPS 2023).
+      flat, in the lineage of DiffuseBot (Wang et al., NeurIPS 2023).
     </p>
     <div class="meta-row">
       <div><strong>Role</strong>Sole researcher &amp; implementer</div>
@@ -61,7 +61,7 @@
 
   <figure>
     <img src="../../images/origami-diffuse/miura_standard.png" alt="A standard Miura-ori crease pattern with mountain folds in red and valley folds in blue">
-    <figcaption>The Miura-ori family used as the generation testbed — mountain (red) / valley (blue) crease pattern.</figcaption>
+    <figcaption>The Miura-ori family used as the generation testbed: mountain (red) / valley (blue) crease pattern.</figcaption>
   </figure>
 
   <h2>Two certificates, not one</h2>
@@ -69,44 +69,44 @@
     The method rests on pairing two learned/exact signals rather than one:
   </p>
   <ul>
-    <li><strong>Foldability certificate</strong> — a learned surrogate trained against an exact oracle (Kawasaki/closure conditions plus a global SAT solve for MV-assignment validity) that provides smooth guidance gradients where no analytic gradient exists.</li>
-    <li><strong>Behavior certificate</strong> — a differentiable 3D rigid-fold simulator (validated to machine precision against closed-form and finite-difference checks) that scores task performance, e.g. a target deployed height.</li>
+    <li><strong>Foldability certificate</strong>: a learned surrogate trained against an exact oracle (Kawasaki/closure conditions plus a global SAT solve for MV-assignment validity) that provides smooth guidance gradients where no analytic gradient exists.</li>
+    <li><strong>Behavior certificate</strong>: a differentiable 3D rigid-fold simulator (validated to machine precision against closed-form and finite-difference checks) that scores task performance, e.g. a target deployed height.</li>
   </ul>
 
   <h2>Results, stage by stage</h2>
   <ul>
     <li>
-      <strong>M0 — learned feasibility, continuous &amp; discrete.</strong>
+      <strong>M0 (learned feasibility, continuous &amp; discrete).</strong>
       On continuous geometry, a calibrated surrogate (R²=0.997, AUROC=0.998)
       produces guidance gradients that match the exact analytic Kawasaki
       baseline, and guided diffusion lifts the exact-oracle feasible rate from
-      0.203 to 0.693. On discrete MV-assignment — the genuinely NP-hard
+      0.203 to 0.693. On discrete MV-assignment (the genuinely NP-hard
       substrate, where 93.8% of locally-valid patterns are globally
-      non-foldable — a learned global surrogate (AUROC=1.000, AP=0.990 on a
+      non-foldable), a learned global surrogate (AUROC=1.000, AP=0.990 on a
       unique-disjoint split) still guides generation from 0% to 30% foldable.
     </li>
     <li>
-      <strong>M1 — scaling via a size-agnostic GNN.</strong> A crease-graph GNN
+      <strong>M1 (scaling via a size-agnostic GNN).</strong> A crease-graph GNN
       trained only on 3×3/4×4 patterns predicts foldability on <em>unseen</em>
-      5×5/6×6 patterns at AUROC 0.999–1.000 (Maekawa-only baseline: chance).
+      5×5/6×6 patterns at AUROC 0.999-1.000 (Maekawa-only baseline: chance).
       Self-recurrence ("time-travel") guidance pushes generation at an unseen
-      5×5 size to 17% foldable — 2.6&times; the basic-sampler peak. The
+      5×5 size to 17% foldable, 2.6&times; the basic-sampler peak. The
       certificate transfers across <em>size</em> within a folding regime, but
-      zero-shot transfer <em>across</em> regimes (e.g. sheared Miura → orthogonal
-      grid) fails at near-chance AUROC — joint training is needed there.
+      zero-shot transfer <em>across</em> regimes (e.g. sheared Miura to orthogonal
+      grid) fails at near-chance AUROC; joint training is needed there.
     </li>
     <li>
-      <strong>M2 — behavior + co-design.</strong> Behavior-only optimization
-      (no feasibility term) reaches 0% foldable designs — the DiffuseBot-style
+      <strong>M2 (behavior + co-design).</strong> Behavior-only optimization
+      (no feasibility term) reaches 0% foldable designs, the DiffuseBot-style
       failure mode this project set out to avoid. Adding the learned
       feasibility term restores 100% foldability at the same behavior target,
       and scheduling feasibility early / performance late Pareto-beats
       optimizing both simultaneously.
     </li>
     <li>
-      <strong>M3 — deploy-from-flat.</strong> Co-design discovers an exactly
+      <strong>M3 (deploy-from-flat).</strong> Co-design discovers an exactly
       foldable design that is a flat sheet at rest and a tall, 40%-compacted
-      3D structure at full actuation — folding doesn't just decorate the
+      3D structure at full actuation: folding doesn't just decorate the
       design, it <em>enables</em> the deploy-from-flat capability that a
       feasibility-blind search never finds.
     </li>
@@ -124,9 +124,9 @@
   </div>
 
   <div class="callout">
-    Every learning claim in this project is checked against an exact oracle —
+    Every learning claim in this project is checked against an exact oracle:
     Kawasaki/closure conditions and a sound-and-complete global SAT solver for
-    MV-assignment foldability — so the reported foldable rates aren't just
+    MV-assignment foldability, so the reported foldable rates aren't just
     surrogate scores, they're ground truth.
   </div>
 
@@ -134,7 +134,7 @@
 
 <footer class="site">
   <div class="wrap">
-    &copy; 2026 Alan Royce Gabriel. Built with plain HTML/CSS — no framework, no tracking.
+    &copy; 2026 Alan Royce Gabriel. Built with plain HTML/CSS, no framework, no tracking.
   </div>
 </footer>
 

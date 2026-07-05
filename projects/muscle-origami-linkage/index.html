@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Inverse-Designed Origami Linkages for Biohybrid Muscle Actuation — Alan Royce Gabriel</title>
+<title>Inverse-Designed Origami Linkages for Biohybrid Muscle Actuation · Alan Royce Gabriel</title>
 <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
@@ -27,9 +27,9 @@
     <div class="kicker">Research Proposal + Computational Prototype · Mechanism Design</div>
     <h1>Inverse-Designed Origami Linkages for Multi-Directional Biohybrid Muscle Actuation</h1>
     <p class="subtitle">
-      A computational bridge between three MIT research programs — Demaine-lab
+      A computational bridge between three MIT research programs (Demaine-lab
       origami/linkage kinematics, Rus-lab origami-robot design staging, and
-      Raman-lab biohybrid muscle actuators — that turns hand-tuned actuator
+      Raman-lab biohybrid muscle actuators) that turns hand-tuned actuator
       geometry into a solvable inverse-design problem.
     </p>
     <div class="meta-row">
@@ -51,12 +51,12 @@
     intrinsically uniaxial: a strip or ring of muscle contracts along one
     direction. But grasping, multi-axis bending, and iris-like closing all need
     <em>multi-directional</em> output from that single contractile input. The
-    MIT Raman lab currently solves this by hand — patterning stamp geometry or
+    MIT Raman lab currently solves this by hand: patterning stamp geometry or
     tuning a compliant flexure skeleton per device, empirically, one target
     motion at a time. The Demaine lab's computational-origami and
     linkage-kinematics toolkit (curved-crease mechanisms, bar-and-hinge
     reduced-order models, coupler-curve inverse synthesis) is exactly the
-    machinery needed to turn that hand-tuning into a search problem instead —
+    machinery needed to turn that hand-tuning into a search problem instead,
     but no published work connects the two.
   </p>
 
@@ -68,7 +68,7 @@
     parameters (ground pivot radius, drive angle, two bar lengths, and a
     2-parameter coupler offset) are chosen independently, one common physical
     input maps to a <em>different</em> output amplitude and direction at each
-    leg's tip — the mechanical basis for one muscle driving many directions at
+    leg's tip: the mechanical basis for one muscle driving many directions at
     once.
   </p>
   <p>
@@ -84,8 +84,8 @@
     Given a target motion (K prescribed tip trajectories), <strong>CMA-ES</strong>
     searches leg geometry under physiological strain bounds (10–20% contraction)
     and a flat-fabricatable footprint constraint, chosen specifically because
-    the feasibility boundary — a leg's circle-circle intersection can simply
-    stop existing mid-sweep — is non-smooth and multimodal, ruling out
+    the feasibility boundary (a leg's circle-circle intersection can simply
+    stop existing mid-sweep) is non-smooth and multimodal, ruling out
     gradient-based search.
   </p>
   <p>
@@ -94,14 +94,14 @@
     6<em>K</em>-dimensional joint search over an asymmetric target is exactly
     separable into <em>K</em> independent 6-dimensional single-leg searches
     (each also choosing a discrete knee-branch sign). This is both a
-    <strong>correctness fix</strong> — the naive joint search silently locked
-    some legs into permanently infeasible branches — and a large
+    <strong>correctness fix</strong> (the naive joint search silently locked
+    some legs into permanently infeasible branches) and a large
     <strong>efficiency gain</strong>.
   </p>
 
   <figure>
     <img src="../../images/muscle-linkage/solved_mechanisms.png" alt="Three solved radial-leg mechanisms tracing an iris-closing, asymmetric-bend, and grasp motion">
-    <figcaption>Inverse-designed radial-leg mechanisms reproducing three target motions — iris closing, asymmetric bend, and grasp — each from a single actuation input.</figcaption>
+    <figcaption>Inverse-designed radial-leg mechanisms reproducing three target motions (iris closing, asymmetric bend, and grasp), each from a single actuation input.</figcaption>
   </figure>
 
   <h2>Results</h2>
@@ -109,7 +109,7 @@
     All three target motions tested (grasp, asymmetric multi-axis bend, and
     iris-like radial closing) converge to fully kinematically feasible designs
     across the entire actuation sweep, with sub-2mm RMS tracking error and
-    4.5–7.7&times; displacement amplification — matching or exceeding the
+    4.5-7.7&times; displacement amplification, matching or exceeding the
     best hand-tuned single-direction literature design (~5&times;,
     Raman/Culpepper flexure skeleton) while additionally providing 5–6
     independently steerable output directions from one input.
@@ -130,7 +130,7 @@
 
 <footer class="site">
   <div class="wrap">
-    &copy; 2026 Alan Royce Gabriel. Built with plain HTML/CSS — no framework, no tracking.
+    &copy; 2026 Alan Royce Gabriel. Built with plain HTML/CSS, no framework, no tracking.
   </div>
 </footer>
 

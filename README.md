@@ -3,7 +3,7 @@
 Plain HTML/CSS, no build step, no dependencies.
 
 ```
-index.html            homepage — project list
+index.html            homepage, project list
 about.html
 css/style.css
 images/                project screenshots/figures, copied from each project's own repo
