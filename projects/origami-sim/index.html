@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>origami_sim — Alan Royce Gabriel</title>
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="site-name" href="../../index.html">Alan Royce Gabriel</a>
+    <nav class="site-nav">
+      <a href="../../index.html">Projects</a>
+      <a href="../../about.html">About</a>
+      <a href="https://github.com/YOUR-GITHUB-USERNAME" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/YOUR-LINKEDIN" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:alanroyce2010@gmail.com">Email</a>
+    </nav>
+  </div>
+</header>
+
+<section class="project-header">
+  <div class="wrap">
+    <div class="kicker">Skill-Building Project · Physics Simulation</div>
+    <h1>origami_sim: A GPU Origami Physics Simulator, From Scratch</h1>
+    <p class="subtitle">
+      A from-scratch Python reimplementation of Ghassaei, Demaine &amp;
+      Gershenfeld's GPU origami simulation method — the engine behind
+      <a href="https://origamisimulator.org" target="_blank" rel="noopener">Origami Simulator</a> —
+      built to validate crease patterns generated elsewhere in the thesis work.
+    </p>
+    <div class="meta-row">
+      <div><strong>Role</strong>Sole researcher &amp; implementer</div>
+      <div><strong>Status</strong>Complete — 118 tests passing</div>
+      <div><strong>Stack</strong>NumPy, Taichi (GPU), FOLD/SVG I/O</div>
+    </div>
+    <div class="links">
+      <a href="https://github.com/YOUR-GITHUB-USERNAME/origami_sim" target="_blank" rel="noopener">Source</a>
+    </div>
+  </div>
+</section>
+
+<div class="project-body wrap">
+
+  <h2>What it does</h2>
+  <p>
+    Turns a flat crease pattern into a triangulated mesh of point-masses joined
+    by springs, then runs a fast, fully parallel explicit physics loop until it
+    settles into its folded 3D shape — no global matrix solve, so the method
+    maps cleanly onto a GPU. Built incrementally: a readable NumPy reference
+    implementation first, then a Taichi GPU port matched to it to round-off,
+    then an interactive viewer and real crease-pattern (SVG) import.
+  </p>
+
+  <div class="figure-row">
+    <figure>
+      <img src="../../images/origami-sim/miura.gif" alt="A Miura-ori pattern folding in the simulator">
+      <figcaption>Miura-ori folding under the explicit physics solver.</figcaption>
+    </figure>
+    <figure>
+      <img src="../../images/origami-sim/hypar_strain.gif" alt="A hyperbolic paraboloid crease pattern folding with a strain heatmap overlay">
+      <figcaption>A hyperbolic paraboloid ("hypar") pattern, with the blue→red strain heatmap active.</figcaption>
+    </figure>
+  </div>
+
+  <h2>Under the hood</h2>
+  <ul>
+    <li><strong>Four force types</strong> from the source paper — axial (beam springs), crease (dihedral torsion springs), face (interior-angle shear), and viscous damping — every one finite-difference gradient validated.</li>
+    <li><strong>Four pluggable integrators</strong> — symplectic Euler, velocity Verlet (default), RK4, and a matrix-free implicit Euler solver via conjugate gradient with optional adaptive timestep. Verlet is stable at ~2&times; Euler's timestep; implicit at ~6&times;+.</li>
+    <li><strong>A GPU port in Taichi</strong> matching the NumPy reference to round-off, reproducing the source paper's Fig. 9 scaling result: ~78&times; faster at 33k nodes.</li>
+    <li><strong>An interactive viewer</strong> — fold by hand, tune stiffness/damping live, watch the strain heatmap update in real time.</li>
+    <li><strong>FOLD and SVG I/O</strong>, including color-coded crease-type import from SVG with planar face-finding to rebuild the mesh.</li>
+  </ul>
+
+  <figure>
+    <img src="../../images/origami-sim/accordion.gif" alt="A simple accordion fold pattern folding rigidly">
+    <figcaption>A clean rigid accordion fold — one of the simplest validation patterns.</figcaption>
+  </figure>
+
+  <div class="callout">
+    CPU (NumPy) is treated as the reference implementation; the GPU (Taichi)
+    path must match it to round-off on every change, enforced by a
+    cross-validation test suite (118 tests) alongside finite-difference checks
+    on every force gradient.
+  </div>
+
+</div>
+
+<footer class="site">
+  <div class="wrap">
+    &copy; 2026 Alan Royce Gabriel. Built with plain HTML/CSS — no framework, no tracking.
+  </div>
+</footer>
+
+</body>
+</html>

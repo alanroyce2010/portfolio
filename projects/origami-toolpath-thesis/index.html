@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flat-Foldable Origami Tessellations as Native Continuous Toolpaths for FDM — Alan Royce Gabriel</title>
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="site-name" href="../../index.html">Alan Royce Gabriel</a>
+    <nav class="site-nav">
+      <a href="../../index.html">Projects</a>
+      <a href="../../about.html">About</a>
+      <a href="https://github.com/YOUR-GITHUB-USERNAME" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/YOUR-LINKEDIN" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:alanroyce2010@gmail.com">Email</a>
+    </nav>
+  </div>
+</header>
+
+<section class="project-header">
+  <div class="wrap">
+    <div class="kicker">M.Tech Thesis · Computational Geometry / Digital Fabrication</div>
+    <h1>Flat-Foldable Origami Tessellations as Native Continuous Toolpaths for FDM</h1>
+    <p class="subtitle">
+      Flat-foldable origami crease graphs are natively Eulerian — so they yield
+      crossing-free, single-stroke 3D-printer toolpaths for free, with none of
+      the mesh-refinement overhead existing methods require.
+    </p>
+    <div class="meta-row">
+      <div><strong>Institution</strong>IIT Madras, iDD</div>
+      <div><strong>Advisor</strong>Prof. Pulkit Verma</div>
+      <div><strong>Status</strong>Ongoing</div>
+      <div><strong>Stack</strong>Python, NumPy/Taichi, Pyodide, WebAssembly, C++</div>
+    </div>
+    <div class="links">
+      <a href="https://github.com/YOUR-GITHUB-USERNAME/origami" target="_blank" rel="noopener">Thesis repo</a>
+      <a href="https://github.com/YOUR-GITHUB-USERNAME/origami/tree/main/project/slicer" target="_blank" rel="noopener">Origami-slicer source</a>
+    </div>
+  </div>
+</section>
+
+<div class="project-body wrap">
+
+  <h2>The idea</h2>
+  <p>
+    FDM print quality improves when a layer is deposited as a single,
+    crossing-free, retraction-free stroke — every extra travel move and
+    retraction is a place for stringing, blobbing, or a weak seam. Generating
+    such a stroke for arbitrary infill geometry is hard; the state of the art
+    (Gupta–Krishnamoorthy–Dreifus) forces the crease graph into one by
+    quadrupling its edges, at real overhead.
+  </p>
+  <p>
+    Flat-foldable origami tessellations sidestep that cost because they already
+    have the structure this problem is trying to manufacture. <strong>Maekawa's
+    theorem</strong> says that at every interior crease vertex, the number of
+    mountain folds and valley folds differs by exactly two — which forces every
+    interior vertex to have even degree. A graph where every vertex has even
+    degree is exactly a graph that admits an Eulerian circuit: a closed walk
+    using every edge exactly once. So a flat-foldable crease pattern's crease
+    graph is <em>natively</em> Eulerian, and a continuous toolpath falls out for
+    free, with no refinement step.
+  </p>
+
+  <figure>
+    <img src="../../images/toolpath/crease-tour.svg" alt="A Miura crease pattern (mountain folds dashed red, valley folds dashed blue) with a single continuous zigzag tour threading through every cell.">
+    <figcaption>
+      A schematic Miura-ori crease pattern (mountain / valley creases dashed)
+      with one continuous, crossing-free tour (solid) threading every cell —
+      the shape a printer toolpath needs to take.
+    </figcaption>
+  </figure>
+
+  <p>
+    The remaining question is whether that Eulerian tour can also be made
+    <strong>crossing-free</strong> — the graph-theoretic object for that is an
+    <strong>A-trail</strong>, an Eulerian circuit that never crosses itself under
+    the pattern's planar embedding, determined by a per-vertex
+    <strong>transition system</strong>. Turning "Eulerian" into "crossing-free
+    and printable" is the theory work this thesis does.
+  </p>
+
+  <h2>Research questions</h2>
+  <ul>
+    <li><strong>RQ1 — Eulerianness for free.</strong> Which tessellation families get this property, and how much mesh-refinement overhead does it save versus the Euler transformation?</li>
+    <li><strong>RQ2 — Crossing-free traversal from MV.</strong> Does a valid mountain/valley assignment induce an A-trail directly?</li>
+    <li><strong>RQ3 — Boundary clipping.</strong> When a pattern is clipped to an arbitrary part outline, odd-degree vertices appear at the boundary — how cheaply can they be patched back to Eulerian?</li>
+    <li><strong>RQ4 — Low-curvature paths.</strong> Can Kawasaki's angle condition be used to minimize toolpath turning, which matters for print speed and quality?</li>
+    <li><strong>RQ5 — Mechanical anisotropy.</strong> Does the fold-line / deposition direction predictably set the printed part's mechanical anisotropy?</li>
+  </ul>
+
+  <h2>System: data format, slicer, and simulator</h2>
+  <p>
+    The thesis pairs the theory with three pieces of working software:
+  </p>
+  <ul>
+    <li>
+      <strong>fold-toolpath (<code>tp:</code>)</strong> — a namespaced extension
+      to the standard FOLD origami interchange format that adds the one object
+      category it's missing for fabrication: an <em>ordered walk</em> over the
+      crease graph, plus the transition system that certifies it's
+      crossing-free. Includes a stdlib-only validator, an A-trail generator,
+      a boundary-clipping tool for non-convex outlines, and a benchmark suite
+      comparing toolpath length/turning/crossings against a grid-infill
+      baseline.
+    </li>
+    <li>
+      <strong>origami-slicer</strong> — a static web app that slices an
+      STL/OBJ and fills every layer with a single continuous origami toolpath,
+      then emits G-code. The entire pipeline (slicing, clipping, A-trail
+      generation) runs client-side in the browser via Pyodide/WebAssembly —
+      nothing is uploaded, there's no backend, and it can be hosted on any
+      static file service.
+    </li>
+    <li>
+      <strong>origami_sim</strong> — a from-scratch GPU origami physics
+      simulator used to validate that generated crease patterns actually fold
+      the way the theory predicts.
+      <a href="../origami-sim/index.html">See the dedicated project page →</a>
+    </li>
+  </ul>
+
+  <h2>Physical validation</h2>
+  <p>
+    Beyond the software pipeline, the thesis includes a fabrication track: a
+    <code>FillOrigami</code> infill plugin (C++) integrated with a Bambu/Prusa
+    slicer, a coupon generator for standardized mechanical test geometries, and
+    G-code metrics tooling to measure real print quality (travel moves,
+    retractions, print time) against the grid-infill baseline on physically
+    printed parts.
+  </p>
+
+  <div class="callout">
+    Terminology in this project is precise on purpose — Eulerian tour,
+    A-trail, transition system, rotation system, Maekawa's theorem, Kawasaki's
+    theorem, and MV (mountain/valley) assignment are each distinct, load-bearing
+    concepts that map directly onto RQ1–RQ5.
+  </div>
+
+</div>
+
+<footer class="site">
+  <div class="wrap">
+    &copy; 2026 Alan Royce Gabriel. Built with plain HTML/CSS — no framework, no tracking.
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alan Royce Gabriel — Portfolio</title>
+<meta name="description" content="Computational origami engineering — flat-foldable toolpaths for 3D printing, generative co-design, and inverse-designed mechanisms.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="site-name" href="index.html">Alan Royce Gabriel</a>
+    <nav class="site-nav">
+      <a class="current" href="index.html">Projects</a>
+      <a href="about.html">About</a>
+      <a href="https://github.com/YOUR-GITHUB-USERNAME" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/YOUR-LINKEDIN" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:alanroyce2010@gmail.com">Email</a>
+    </nav>
+  </div>
+</header>
+
+<section class="intro">
+  <div class="wrap">
+    <h1>Computational origami engineering</h1>
+    <p>
+      M.Tech student at IIT Madras working at the intersection of computational
+      geometry, generative machine learning, and mechanism design — using
+      folding as a lens for manufacturing, generative design, and soft
+      robotics. Below is a selection of ongoing research.
+    </p>
+  </div>
+</section>
+
+<section class="project-list">
+  <div class="wrap">
+
+    <article class="project-entry">
+      <a class="thumb-link" href="projects/origami-toolpath-thesis/index.html">
+        <div class="thumb">
+          <img src="images/toolpath/crease-tour.svg" alt="Miura crease pattern with a continuous zigzag toolpath traced through it">
+        </div>
+      </a>
+      <div class="entry-body">
+        <h2 class="entry-title"><a href="projects/origami-toolpath-thesis/index.html">Flat-Foldable Origami Tessellations as Native Continuous Toolpaths for FDM</a></h2>
+        <div class="entry-meta">M.Tech Thesis · IIT Madras · Advisor: Prof. Pulkit Verma · Ongoing</div>
+        <div class="entry-desc">
+          <p>
+            FDM print quality improves when a layer is deposited as one continuous,
+            crossing-free stroke. Flat-foldable origami tessellations already have the
+            structure this requires: by Maekawa's theorem every interior crease
+            vertex has even degree, so the crease graph is natively Eulerian —
+            a printable toolpath falls out for free, with no mesh-refinement
+            overhead. Includes a browser-based slicer, a FOLD-format extension
+            for storing toolpaths, and a from-scratch GPU origami simulator.
+          </p>
+        </div>
+        <div class="tag-row">
+          <span class="tag">Computational Geometry</span>
+          <span class="tag">Graph Theory</span>
+          <span class="tag">FDM / Digital Fabrication</span>
+          <span class="tag">WebAssembly</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-entry">
+      <a class="thumb-link" href="projects/origami-diffuse/index.html">
+        <div class="thumb">
+          <img src="images/origami-diffuse/deploy_from_flat.gif" alt="A flat crease pattern deploying into a tall 3D corrugated structure">
+        </div>
+      </a>
+      <div class="entry-body">
+        <h2 class="entry-title"><a href="projects/origami-diffuse/index.html">origami-diffuse: Feasibility-Aware Generative Co-Design of Origami Soft Robots</a></h2>
+        <div class="entry-meta">Independent Research · 2026</div>
+        <div class="entry-desc">
+          <p>
+            Origami fold-space is a measure-zero, NP-hard-to-decide manifold —
+            almost no random pattern actually folds flat. This project builds a
+            diffusion-based generator that stays on that manifold by combining a
+            learned <em>foldability</em> certificate with a differentiable
+            <em>behavior</em> certificate, so generated designs are simultaneously
+            buildable and functional. Guided sampling lifts the exact-oracle
+            feasible rate on unseen sizes from 0% to 30%, and co-design discovers
+            a genuine deploy-from-flat morphology — a flat sheet that folds into
+            a tall, compacted 3D structure.
+          </p>
+        </div>
+        <div class="tag-row">
+          <span class="tag">Diffusion Models</span>
+          <span class="tag">Constrained Generation</span>
+          <span class="tag">Graph Neural Networks</span>
+          <span class="tag">Differentiable Simulation</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-entry">
+      <a class="thumb-link" href="projects/muscle-origami-linkage/index.html">
+        <div class="thumb">
+          <img src="images/muscle-linkage/solved_mechanisms.png" alt="Three inverse-designed radial-leg linkages tracing grasp, bend, and iris-closing motions">
+        </div>
+      </a>
+      <div class="entry-body">
+        <h2 class="entry-title"><a href="projects/muscle-origami-linkage/index.html">Inverse-Designed Origami Linkages for Biohybrid Muscle Actuation</a></h2>
+        <div class="entry-meta">Research Proposal + Computational Prototype · 2026</div>
+        <div class="entry-desc">
+          <p>
+            Engineered muscle tissue only contracts along one axis, yet grasping,
+            multi-axis bending, and iris-like closing all need multi-directional
+            output from that single input. This project designs a family of flat,
+            fabricable "radial-leg" linkages and uses gradient-free inverse
+            optimization (CMA-ES) to find one that converts a single physiological
+            muscle contraction into a prescribed multi-directional motion —
+            reaching sub-2mm tracking error and 4.5–7.7&times; displacement
+            amplification, competitive with hand-tuned single-direction designs
+            in the literature.
+          </p>
+        </div>
+        <div class="tag-row">
+          <span class="tag">Inverse Kinematics</span>
+          <span class="tag">CMA-ES Optimization</span>
+          <span class="tag">Mechanism Design</span>
+          <span class="tag">Biohybrid Robotics</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-entry">
+      <a class="thumb-link" href="projects/origami-sim/index.html">
+        <div class="thumb">
+          <img src="images/origami-sim/miura.gif" alt="A Miura-ori crease pattern folding in the physics simulator">
+        </div>
+      </a>
+      <div class="entry-body">
+        <h2 class="entry-title"><a href="projects/origami-sim/index.html">origami_sim: A GPU Origami Physics Simulator, From Scratch</a></h2>
+        <div class="entry-meta">Skill-Building Project · Supports the FDM thesis</div>
+        <div class="entry-desc">
+          <p>
+            A from-scratch reimplementation of Ghassaei, Demaine &amp; Gershenfeld's
+            GPU origami simulation method (the engine behind Origami Simulator):
+            a crease pattern becomes a mass-spring mesh driven by four validated
+            force types and an explicit physics loop, with a NumPy reference
+            cross-checked to round-off against a Taichi GPU port that reproduces
+            the paper's ~78&times; speedup at scale.
+          </p>
+        </div>
+        <div class="tag-row">
+          <span class="tag">Physics Simulation</span>
+          <span class="tag">GPU Computing (Taichi)</span>
+          <span class="tag">Numerical Methods</span>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    &copy; 2026 Alan Royce Gabriel. Built with plain HTML/CSS — no framework, no tracking.
+  </div>
+</footer>
+
+</body>
+</html>

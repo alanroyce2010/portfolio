@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inverse-Designed Origami Linkages for Biohybrid Muscle Actuation — Alan Royce Gabriel</title>
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="site-name" href="../../index.html">Alan Royce Gabriel</a>
+    <nav class="site-nav">
+      <a href="../../index.html">Projects</a>
+      <a href="../../about.html">About</a>
+      <a href="https://github.com/YOUR-GITHUB-USERNAME" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/YOUR-LINKEDIN" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:alanroyce2010@gmail.com">Email</a>
+    </nav>
+  </div>
+</header>
+
+<section class="project-header">
+  <div class="wrap">
+    <div class="kicker">Research Proposal + Computational Prototype · Mechanism Design</div>
+    <h1>Inverse-Designed Origami Linkages for Multi-Directional Biohybrid Muscle Actuation</h1>
+    <p class="subtitle">
+      A computational bridge between three MIT research programs — Demaine-lab
+      origami/linkage kinematics, Rus-lab origami-robot design staging, and
+      Raman-lab biohybrid muscle actuators — that turns hand-tuned actuator
+      geometry into a solvable inverse-design problem.
+    </p>
+    <div class="meta-row">
+      <div><strong>Role</strong>Sole researcher &amp; implementer</div>
+      <div><strong>Status</strong>Computational prototype validated</div>
+      <div><strong>Stack</strong>Python, CMA-ES, nonlinear least squares</div>
+    </div>
+    <div class="links">
+      <a href="https://github.com/YOUR-GITHUB-USERNAME/muscle-origami-linkage" target="_blank" rel="noopener">Source</a>
+    </div>
+  </div>
+</section>
+
+<div class="project-body wrap">
+
+  <h2>The gap</h2>
+  <p>
+    Engineered skeletal-muscle-tissue actuators are, at the tissue level,
+    intrinsically uniaxial: a strip or ring of muscle contracts along one
+    direction. But grasping, multi-axis bending, and iris-like closing all need
+    <em>multi-directional</em> output from that single contractile input. The
+    MIT Raman lab currently solves this by hand — patterning stamp geometry or
+    tuning a compliant flexure skeleton per device, empirically, one target
+    motion at a time. The Demaine lab's computational-origami and
+    linkage-kinematics toolkit (curved-crease mechanisms, bar-and-hinge
+    reduced-order models, coupler-curve inverse synthesis) is exactly the
+    machinery needed to turn that hand-tuning into a search problem instead —
+    but no published work connects the two.
+  </p>
+
+  <h2>Mechanism family</h2>
+  <p>
+    The design space is a <strong>radial-leg mechanism</strong>: a central ring
+    that contracts under the muscle's scalar input, connected to <em>K</em>
+    independent 2-bar legs arranged around it. Because each leg's six geometric
+    parameters (ground pivot radius, drive angle, two bar lengths, and a
+    2-parameter coupler offset) are chosen independently, one common physical
+    input maps to a <em>different</em> output amplitude and direction at each
+    leg's tip — the mechanical basis for one muscle driving many directions at
+    once.
+  </p>
+  <p>
+    Two forward-kinematics models were built and cross-validated to machine
+    precision against each other and against the closed-form four-bar-linkage
+    solution: a general nonlinear-least-squares bar-and-hinge solver, and a
+    closed-form circle-circle-intersection model fast enough to drive hundreds
+    of CMA-ES generations.
+  </p>
+
+  <h2>Inverse design</h2>
+  <p>
+    Given a target motion (K prescribed tip trajectories), <strong>CMA-ES</strong>
+    searches leg geometry under physiological strain bounds (10–20% contraction)
+    and a flat-fabricatable footprint constraint, chosen specifically because
+    the feasibility boundary — a leg's circle-circle intersection can simply
+    stop existing mid-sweep — is non-smooth and multimodal, ruling out
+    gradient-based search.
+  </p>
+  <p>
+    A key finding came from the structure of the objective itself: because leg
+    mechanics are independent and the loss is additive across legs, the naive
+    6<em>K</em>-dimensional joint search over an asymmetric target is exactly
+    separable into <em>K</em> independent 6-dimensional single-leg searches
+    (each also choosing a discrete knee-branch sign). This is both a
+    <strong>correctness fix</strong> — the naive joint search silently locked
+    some legs into permanently infeasible branches — and a large
+    <strong>efficiency gain</strong>.
+  </p>
+
+  <figure>
+    <img src="../../images/muscle-linkage/solved_mechanisms.png" alt="Three solved radial-leg mechanisms tracing an iris-closing, asymmetric-bend, and grasp motion">
+    <figcaption>Inverse-designed radial-leg mechanisms reproducing three target motions — iris closing, asymmetric bend, and grasp — each from a single actuation input.</figcaption>
+  </figure>
+
+  <h2>Results</h2>
+  <p>
+    All three target motions tested (grasp, asymmetric multi-axis bend, and
+    iris-like radial closing) converge to fully kinematically feasible designs
+    across the entire actuation sweep, with sub-2mm RMS tracking error and
+    4.5–7.7&times; displacement amplification — matching or exceeding the
+    best hand-tuned single-direction literature design (~5&times;,
+    Raman/Culpepper flexure skeleton) while additionally providing 5–6
+    independently steerable output directions from one input.
+  </p>
+
+  <div class="figure-row">
+    <figure>
+      <img src="../../images/muscle-linkage/convergence_curves.png" alt="CMA-ES optimization convergence curves for each target motion">
+      <figcaption>CMA-ES convergence for each target motion.</figcaption>
+    </figure>
+    <figure>
+      <img src="../../images/muscle-linkage/performance_comparison.png" alt="Displacement amplification comparison against the hand-tuned literature baseline">
+      <figcaption>Amplification ratio vs. the hand-tuned literature baseline.</figcaption>
+    </figure>
+  </div>
+
+</div>
+
+<footer class="site">
+  <div class="wrap">
+    &copy; 2026 Alan Royce Gabriel. Built with plain HTML/CSS — no framework, no tracking.
+  </div>
+</footer>
+
+</body>
+</html>
