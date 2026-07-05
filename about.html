@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>About — Alan Royce Gabriel</title>
+<meta name="description" content="Alan Royce Gabriel — M.Tech student at IIT Madras working on computational origami, generative design, and mechanism synthesis.">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -14,6 +15,7 @@
     <nav class="site-nav">
       <a href="index.html">Projects</a>
       <a class="current" href="about.html">About</a>
+      <a href="blog.html">Blog</a>
       <a href="https://github.com/alanroyce2010" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.linkedin.com/in/alan-royce-gabriel-596252128/" target="_blank" rel="noopener">LinkedIn</a>
       <a href="mailto:alanroyce2010@gmail.com">Email</a>
@@ -21,39 +23,81 @@
   </div>
 </header>
 
+<section class="about-header">
+  <div class="wrap">
+    <h1>About</h1>
+    <p class="subtitle">
+      M.Tech student, IIT Madras. I use folding as a lens for manufacturing,
+      generative design, and robotics.
+    </p>
+  </div>
+</section>
+
 <section class="about-body wrap">
-  <h1>About</h1>
+
   <p>
-    I'm an M.Tech student in the Integrated Design &amp; Innovation (iDD) program
-    at IIT Madras, currently working on a thesis under Prof. Pulkit Verma:
-    <em>Flat-Foldable Origami Tessellations as Native Continuous Toolpaths for
-    Fused Deposition Modeling</em>. The central idea is that computational
-    origami — a mathematically rich theory of how flat sheets fold — is also
-    a source of practical structure for problems in manufacturing, generative
-    design, and robotics that would otherwise require solving hard combinatorial
-    or geometric problems from scratch.
+    I'm an M.Tech student in the Integrated Design &amp; Innovation (iDD)
+    program at IIT Madras. My thesis, advised by Prof. Pulkit Verma, argues
+    that flat-foldable origami tessellations are natively Eulerian — so they
+    give 3D-printer toolpaths their crossing-free, single-stroke structure for
+    free, instead of forcing it with mesh refinement. Everything else on this
+    site grew out of chasing that same idea into other places it applies:
+    generative design and mechanism synthesis.
   </p>
+
+  <div class="facts-row">
+    <div><strong>Program</strong>M.Tech, Integrated Design &amp; Innovation</div>
+    <div><strong>Institution</strong>IIT Madras</div>
+    <div><strong>Advisor</strong>Prof. Pulkit Verma</div>
+    <div><strong>Focus</strong>Computational origami engineering</div>
+  </div>
+
+  <h2>What ties the projects together</h2>
   <p>
-    That thread runs through the projects on this site: using Maekawa's theorem
-    to get crossing-free 3D-printer toolpaths for free instead of forcing them
-    with mesh refinement; building a diffusion model that can generate novel
-    origami patterns while staying on the vanishingly small manifold of
-    patterns that actually fold flat; and inverse-designing origami-style
-    linkages that convert a single muscle contraction into complex,
-    multi-directional motion for biohybrid robots.
+    Origami is a strange kind of design space: almost every random crease
+    pattern doesn't fold flat at all, and deciding whether a discrete
+    mountain/valley assignment folds globally is NP-hard. That sounds like a
+    liability. In practice it's the opposite — the small amount of structure
+    that <em>does</em> survive (Maekawa's parity condition, Kawasaki's angle
+    condition, rigid-fold closure) turns out to be exactly the leverage needed
+    to solve problems that look unrelated on the surface:
   </p>
+  <ul>
+    <li>a graph-parity theorem gives a 3D-printer toolpath its crossing-free structure for free (the FDM thesis);</li>
+    <li>a learned version of that same feasibility condition can steer a generative model onto a measure-zero manifold instead of off of it (origami-diffuse);</li>
+    <li>a family of flat-fabricable linkages turns "one muscle, many motions" from a hand-tuning problem into an inverse-optimization problem (the biohybrid linkage project).</li>
+  </ul>
+  <p class="pull-quote">
+    A clean piece of mathematics — a parity condition, a closure constraint, a
+    symmetry — doing real engineering work: making something fabricable,
+    learnable, or controllable that would otherwise be intractable by brute
+    force.
+  </p>
+
+  <h2>Tools I reach for</h2>
+  <div class="tag-row">
+    <span class="tag">Python</span>
+    <span class="tag">NumPy</span>
+    <span class="tag">PyTorch</span>
+    <span class="tag">Taichi / GPU</span>
+    <span class="tag">Graph Neural Networks</span>
+    <span class="tag">Diffusion Models</span>
+    <span class="tag">CMA-ES</span>
+    <span class="tag">SAT Solving</span>
+    <span class="tag">WebAssembly / Pyodide</span>
+    <span class="tag">C++</span>
+    <span class="tag">FOLD Format</span>
+  </div>
+
+  <h2>Elsewhere</h2>
   <p>
-    I like problems where a clean piece of mathematics — a graph-theoretic
-    theorem, a closure constraint, a symmetry — turns out to do real
-    engineering work: making something fabricable, learnable, or controllable
-    that would otherwise be intractable by brute force.
+    I write up longer, more informal versions of this research on the
+    <a href="blog.html">blog</a>. Code for these projects lives on
+    <a href="https://github.com/alanroyce2010" target="_blank" rel="noopener">GitHub</a>
+    (repos are being made public on a rolling basis). The fastest way to reach
+    me is <a href="mailto:alanroyce2010@gmail.com">email</a>.
   </p>
-  <p>
-    Get in touch at
-    <a href="mailto:alanroyce2010@gmail.com">alanroyce2010@gmail.com</a>,
-    or find code for these projects on
-    <a href="https://github.com/alanroyce2010" target="_blank" rel="noopener">GitHub</a>.
-  </p>
+
 </section>
 
 <footer class="site">

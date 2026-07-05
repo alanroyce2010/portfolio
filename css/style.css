@@ -278,12 +278,120 @@ nav.site-nav a.current { color: var(--accent); }
 
 /* ---------- about page ---------- */
 
+.about-header {
+  padding: 48px 0 32px;
+  border-bottom: 1px solid var(--line);
+}
+.about-header h1 { font-size: 32px; margin-bottom: 14px; }
+.about-header .subtitle {
+  color: var(--muted);
+  font-size: 18px;
+  max-width: 620px;
+  margin: 0;
+}
+
 .about-body {
-  padding: 48px 0 70px;
+  padding: 40px 0 70px;
   max-width: 680px;
 }
-.about-body h1 { font-size: 30px; margin-bottom: 22px; }
 .about-body p { margin: 0 0 16px; }
+.about-body h2 {
+  font-size: 21px;
+  margin: 44px 0 14px;
+}
+.about-body h2:first-child { margin-top: 0; }
+
+.facts-row {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  margin: 26px 0 30px;
+  padding: 20px 24px;
+  background: #f4f0ea;
+  border-left: 3px solid var(--accent);
+}
+.facts-row div { color: var(--muted); }
+.facts-row strong {
+  display: block;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 3px;
+}
+
+.pull-quote {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.4;
+  color: var(--ink);
+  max-width: 600px;
+  margin: 34px 0;
+  padding-left: 22px;
+  border-left: 3px solid var(--accent);
+}
+
+.about-body .tag-row { margin: 0 0 16px; }
+
+/* ---------- blog list ---------- */
+
+.post-list {
+  padding: 10px 0 60px;
+}
+.post-entry {
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+.post-entry .post-date {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.post-entry .post-title {
+  font-size: 23px;
+  margin-bottom: 10px;
+}
+.post-entry .post-title a { color: var(--ink); }
+.post-entry .post-title a:hover { color: var(--accent); text-decoration: none; }
+.post-entry .post-excerpt { color: #33312e; margin: 0 0 10px; max-width: 700px; }
+.post-entry .read-more {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.post-entry .read-more::after { content: " \2192"; }
+
+.empty-state {
+  padding: 30px 0;
+  color: var(--muted);
+  max-width: 560px;
+}
+
+/* ---------- blog post page ---------- */
+
+.post-header {
+  padding: 48px 0 28px;
+  border-bottom: 1px solid var(--line);
+}
+.post-header .kicker {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.post-header h1 {
+  font-size: 32px;
+  max-width: 780px;
+}
 
 /* ---------- footer ---------- */
 
