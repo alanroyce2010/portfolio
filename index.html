@@ -39,6 +39,65 @@
   <div class="wrap">
 
     <article class="project-entry">
+      <a class="thumb-link" href="projects/flowmpc/index.html">
+        <div class="thumb">
+          <img src="images/flowmpc/pareto_cube.png" alt="Time/accuracy Pareto front comparing stock, linear, and jointly-optimized flow compensation on a 20mm cube">
+        </div>
+      </a>
+      <div class="entry-body">
+        <h2 class="entry-title"><a href="projects/flowmpc/index.html">flowmpc: Offline Model-Predictive Flow Compensation for FFF Printing</a></h2>
+        <div class="entry-meta">Independent Research · 2026</div>
+        <div class="entry-desc">
+          <p>
+            Filament compresses in the melt zone before it exits the nozzle, so printers
+            under- and over-extrude through every acceleration and deceleration. A sliced
+            G-code file is already the printer's entire future trajectory, so this project
+            solves the same pressure-dynamics tracking problem a real-time controller would,
+            once, offline, and bakes the result back into ordinary G-code for a stock,
+            unmodified Bambu Lab X1C. The jointly-optimized speed and flow schedule dominates
+            speed-agnostic compensation on the time/accuracy Pareto front and stays robust
+            under model mismatch.
+          </p>
+        </div>
+        <div class="tag-row">
+          <span class="tag">Model-Predictive Control</span>
+          <span class="tag">Constrained Optimization</span>
+          <span class="tag">FDM / Digital Fabrication</span>
+          <span class="tag">System Identification</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-entry">
+      <a class="thumb-link" href="projects/apex-mpi/index.html">
+        <div class="thumb">
+          <img src="images/apex-mpi/eval.gif" alt="Greedy evaluation rollout of the trained Double-DQN agent playing Atari Seaquest">
+        </div>
+      </a>
+      <div class="entry-body">
+        <h2 class="entry-title"><a href="projects/apex-mpi/index.html">Ape-X MPI: Hybrid MPI/OpenACC Distributed Prioritized Experience Replay</a></h2>
+        <div class="entry-meta">ID5130 Parallel Scientific Computing · Course Project · with Govind S Ashan</div>
+        <div class="entry-desc">
+          <p>
+            A re-implementation of Ape-X (Horgan et al., 2018) that replaces the reference
+            ZeroMQ/asyncio/multiprocessing transport, proxies, and queues with a single
+            <code>MPI_COMM_WORLD</code> where every logical role is a fixed rank, launched
+            with one <code>mpirun</code> command. The replay buffer's segment tree is ported
+            to a C library with optional OpenACC GPU offload, giving roughly two orders of
+            magnitude speedup, and the MPI port beats the ZMQ baseline on actor intake
+            throughput and reward growth at every actor count tested.
+          </p>
+        </div>
+        <div class="tag-row">
+          <span class="tag">Distributed Systems</span>
+          <span class="tag">MPI</span>
+          <span class="tag">Reinforcement Learning</span>
+          <span class="tag">GPU Computing (OpenACC)</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-entry">
       <a class="thumb-link" href="projects/origami-toolpath-thesis/index.html">
         <div class="thumb">
           <img src="images/toolpath/crease-tour.svg" alt="Miura crease pattern with a continuous zigzag toolpath traced through it">

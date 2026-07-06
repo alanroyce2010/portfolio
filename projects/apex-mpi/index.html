@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hybrid MPI/OpenACC Distributed Prioritized Experience Replay · Alan Royce Gabriel</title>
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="site-name" href="../../index.html">Alan Royce Gabriel</a>
+    <nav class="site-nav">
+      <a href="../../index.html">Projects</a>
+      <a href="../../about.html">About</a>
+      <a href="../../blog.html">Blog</a>
+      <a href="https://github.com/alanroyce2010" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/alan-royce-gabriel-596252128/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:alanroyce2010@gmail.com">Email</a>
+    </nav>
+  </div>
+</header>
+
+<section class="project-header">
+  <div class="wrap">
+    <div class="kicker">ID5130 Parallel Scientific Computing · Course Project</div>
+    <h1>Ape-X MPI: Hybrid MPI/OpenACC Distributed Prioritized Experience Replay</h1>
+    <p class="subtitle">
+      A re-implementation of Ape-X (Horgan et al., 2018) that collapses a
+      ZeroMQ/asyncio/multiprocessing stack of proxies and queues into a
+      single <code>MPI_COMM_WORLD</code>, with the replay buffer's segment
+      tree ported to C with optional OpenACC GPU offload.
+    </p>
+    <div class="meta-row">
+      <div><strong>Role</strong>Co-implementer (with Govind S Ashan)</div>
+      <div><strong>Status</strong>Evaluated on Atari Seaquest, write-up complete</div>
+      <div><strong>Stack</strong>Python, mpi4py, PyTorch, C, OpenACC</div>
+    </div>
+    <div class="links">
+      <a href="https://github.com/alanroyce2010" target="_blank" rel="noopener">Source</a>
+    </div>
+  </div>
+</section>
+
+<div class="project-body wrap">
+
+  <h2>The problem with the reference implementation</h2>
+  <p>
+    Public Ape-X implementations distribute the learner, replay buffer,
+    actors, and evaluator across OS processes wired together with ZeroMQ
+    PUB/SUB and DEALER/ROUTER sockets, <code>asyncio</code> coroutines, and
+    Python <code>multiprocessing</code> queues. An 8-actor run needs proxy
+    processes and inter-process bridges on top of the logical roles, roughly
+    25 OS processes for what is conceptually four kinds of worker. This
+    project replaces the entire transport layer with a single MPI
+    communicator: every logical role is a fixed rank, and the whole system
+    launches with one <code>mpirun</code> command.
+  </p>
+
+  <h2>Architecture</h2>
+  <p>
+    Rank 0 is the learner (GPU training loop, Double-DQN loss, weight
+    broadcast); rank 1 is the replay buffer (prioritized, single-threaded,
+    dispatched via non-blocking <code>comm.iprobe()</code>); ranks
+    2&hellip;N-2 are actors, each with its own exploration &epsilon;; rank
+    N-1 is the evaluator, running the greedy policy for unbiased score
+    logging. Five typed MPI message tags replace the five ZMQ sockets and
+    two queue types of the original: batches (actor &rarr; replay),
+    broadcast parameters (learner &rarr; actor/eval), sample requests and
+    sampled batches (learner &harr; replay), and priority updates
+    (learner &rarr; replay). A collective <code>comm.Barrier()</code> at
+    startup replaces a custom REQ/ROUTER liveness handshake, eliminating an
+    entire class of startup race conditions.
+  </p>
+  <p>
+    The prioritized replay buffer's segment tree, the hot path for both
+    sampling and priority updates, is ported to a C shared library
+    (<code>native/segment_tree.c</code>) with batched update/query
+    primitives. The same source compiles either as a plain CPU library or,
+    with <code>#pragma acc</code> directives left in place, as an
+    OpenACC-offloaded GPU build via the NVIDIA HPC SDK, giving roughly two
+    orders of magnitude speedup over the pure-Python reference, verified
+    correct to machine precision either way.
+  </p>
+
+  <h2>Correctness and memory fixes surfaced along the way</h2>
+  <p>
+    Porting the transport layer surfaced several latent bugs: the replay
+    buffer's naive <code>list.append</code> growth could overshoot its
+    configured capacity under high-throughput intake and is now a true
+    circular buffer; pickling Gym <code>LazyFrame</code> observations leaked
+    residual PyTorch tensor bytes into the wire payload and now materializes
+    to raw <code>uint8</code> arrays first; undelivered parameter broadcasts
+    accumulated at the evaluator and are now drained each episode to keep
+    only the freshest weights (replicating ZMQ's CONFLATE semantics without
+    its silent drops); and leaked <code>MPI.Request</code> handles from the
+    learner's per-step priority <code>isend</code> calls are now explicitly
+    freed.
+  </p>
+
+  <figure>
+    <img src="../../images/apex-mpi/eval.gif" alt="Greedy evaluation rollout of the trained Double-DQN agent playing Atari Seaquest">
+    <figcaption>Greedy evaluation rollout on SeaquestNoFrameskip-v4.</figcaption>
+  </figure>
+
+  <h2>Results</h2>
+  <p>
+    Evaluated on <code>SeaquestNoFrameskip-v4</code> under a fixed 1200s
+    wall-clock budget, sweeping actor count n &isin; {1, 8, 16} against the
+    ZMQ baseline. The MPI port wins on actor intake throughput at every
+    actor count (1.39&times; at n=1, 1.59&times; at n=8, 2.31&times; at
+    n=16) and reaches substantially higher reward within the same budget,
+    trading a lower learner-batch ceiling (a single-threaded replay rank)
+    for much higher intake and better reward growth under wall-clock
+    constraints.
+  </p>
+  <div class="tag-row">
+    <span class="tag">Distributed Systems</span>
+    <span class="tag">MPI</span>
+    <span class="tag">Reinforcement Learning</span>
+    <span class="tag">GPU Computing (OpenACC)</span>
+    <span class="tag">C / Python Interop</span>
+  </div>
+
+</div>
+
+
+
+</body>
+</html>

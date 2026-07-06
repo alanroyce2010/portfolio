@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>flowmpc: Offline Model-Predictive Flow Compensation for FFF Printing · Alan Royce Gabriel</title>
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="site-name" href="../../index.html">Alan Royce Gabriel</a>
+    <nav class="site-nav">
+      <a href="../../index.html">Projects</a>
+      <a href="../../about.html">About</a>
+      <a href="../../blog.html">Blog</a>
+      <a href="https://github.com/alanroyce2010" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/alan-royce-gabriel-596252128/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:alanroyce2010@gmail.com">Email</a>
+    </nav>
+  </div>
+</header>
+
+<section class="project-header">
+  <div class="wrap">
+    <div class="kicker">Independent Research · Digital Fabrication</div>
+    <h1>flowmpc: Offline Model-Predictive Flow Compensation for FFF Printing</h1>
+    <p class="subtitle">
+      A feedforward reformulation of real-time melt-zone pressure control:
+      since a sliced G-code file is the printer's entire future trajectory,
+      the same pressure-dynamics model and tracking optimization that would
+      normally run online can be solved once, offline, and baked back into
+      ordinary G-code, on a stock, unmodified Bambu Lab X1C.
+    </p>
+    <div class="meta-row">
+      <div><strong>Role</strong>Sole researcher &amp; implementer</div>
+      <div><strong>Status</strong>Working pipeline, paper in progress</div>
+      <div><strong>Stack</strong>Python, bounded least squares, G-code toolchain</div>
+    </div>
+    <div class="links">
+      <a href="https://github.com/alanroyce2010" target="_blank" rel="noopener">Source</a>
+    </div>
+  </div>
+</section>
+
+<div class="project-body wrap">
+
+  <h2>The gap</h2>
+  <p>
+    Filament compresses in the melt zone before it exits the nozzle, so
+    printers systematically under-extrude while accelerating and
+    over-extrude while decelerating. Jake Read's MPC for Additive Extrusion
+    closes a real-time control loop at the motor level to fix this, but that
+    requires firmware access to the motion controller. The X1C's controller
+    is sealed to modification, closing off that route, but a sliced G-code
+    file already specifies the complete future trajectory: the same
+    pressure-dynamics model and tracking optimization Read runs online can
+    instead be solved once, offline, over the whole toolpath, with the
+    optimized result written back as ordinary G-code. Real-time MPC becomes
+    receding-horizon trajectory optimization at slicing time.
+  </p>
+
+  <h2>Pipeline</h2>
+  <p>
+    A first-order pressure lag model (<code>tau &middot; dq_out/dt + q_out =
+    q_in</code>, where <code>tau</code> is numerically the Klipper
+    pressure-advance constant) relates commanded inflow to actual outflow at
+    the nozzle. Because the X1C's motion planner is a sealed black box, a
+    second model reconstructs the velocity profile it will actually execute:
+    trapezoidal moves under an acceleration limit plus square-corner-velocity
+    junction slowdown, with the printer and planner fit empirically as one
+    system. A bounded least-squares optimizer then tracks the demanded
+    outflow through the pressure model in overlapping windows, an MPC
+    horizon run entirely offline, subject to a maximum volumetric flow limit
+    and (by default) no negative inflow mid-bead. The post-processor extracts
+    each continuous extrusion run from sliced G-code, optimizes its inflow,
+    and re-emits it subdivided into ~4&nbsp;ms segments whose E values realize
+    the optimized flow; original vertices are preserved exactly and
+    everything else passes through byte-for-byte, with an <code>M900
+    K0</code> inserted so firmware pressure advance doesn't double-compensate.
+  </p>
+
+  <h2>Calibration workflow</h2>
+  <p>
+    A calibration print (first-layer lines with a stepped speed change, run
+    with firmware flow-dynamics compensation disabled) is scanned on a
+    flatbed scanner and measured for line width every 1&ndash;2&nbsp;mm; a
+    least-squares fit against the measured widths recovers <code>tau</code>
+    for the specific filament and printer. Compensated prints then run with
+    that <code>tau</code> and firmware compensation held off, so the offline
+    optimization is the only source of correction.
+  </p>
+
+  <div class="figure-row">
+    <figure>
+      <img src="../../images/flowmpc/pareto_cube.png" alt="Time/accuracy Pareto front comparing stock, linear, and jointly-optimized flow compensation on a 20mm cube">
+      <figcaption>Time/accuracy Pareto front at fixed tau: joint speed+flow optimization dominates stock and linear-PA compensation at every accuracy tolerance.</figcaption>
+    </figure>
+    <figure>
+      <img src="../../images/flowmpc/robustness.png" alt="Frozen-schedule error under tau model mismatch, comparing stock+optimal against the jointly-optimized schedule">
+      <figcaption>Robustness to tau mis-estimation: the jointly-optimized schedule degrades no faster than stock+optimal away from the true tau.</figcaption>
+    </figure>
+  </div>
+
+  <h2>Findings</h2>
+  <p>
+    Jointly optimizing the feedrate profile and the inflow schedule
+    dominates speed-agnostic compensation on the time/accuracy Pareto front:
+    at matched extrusion time it reaches roughly an order of magnitude lower
+    relative width error than the stock-speed, optimal-inflow baseline, and
+    that advantage holds under Monte Carlo perturbation of the true
+    <code>tau</code> away from its fitted value, evidence the joint schedule
+    isn't simply overfitting to a single calibration point. The research
+    track this feeds, flow-limited time-optimal feedrate scheduling, treats
+    the feedrate profile itself as a variable rather than something the
+    slicer fixes before compensation ever runs.
+  </p>
+
+  <h2>Current limits</h2>
+  <p>
+    The planner model is approximate (input shaping and S-curve blending are
+    ignored, so accel/junction parameters need empirical tuning), arcs and
+    Z-changing moves pass through uncompensated, and the model is linear
+    first-order only; a learned residual for nonlinear (shear-thinning)
+    outflow is the natural next step. A phase-2 direction uses the printer's
+    toolhead camera for per-layer measurement and iterative between-layer
+    re-optimization, a layer-timescale analog of Read's online recompile,
+    without any hardware or firmware modification.
+  </p>
+
+  <div class="tag-row">
+    <span class="tag">Model-Predictive Control</span>
+    <span class="tag">Constrained Optimization</span>
+    <span class="tag">FDM / Digital Fabrication</span>
+    <span class="tag">System Identification</span>
+  </div>
+
+</div>
+
+
+
+</body>
+</html>
