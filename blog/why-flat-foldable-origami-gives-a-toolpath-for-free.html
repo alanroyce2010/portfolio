@@ -1,12 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Why flat-foldable origami gives you a 3D-printer toolpath for free · Alan Royce Gabriel</title>
-<link rel="stylesheet" href="../css/style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Why flat-foldable origami gives you a 3D-printer toolpath for free · Alan Royce Gabriel</title>
+  <meta name="description" content="A single parity theorem from 1980s origami math (Maekawa's theorem) turns out to be exactly the condition a printer toolpath needs.">
+  <link rel="stylesheet" href="../css/blog.css">
+  <!-- KaTeX for math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ]
+    });"></script>
 </head>
 <body>
+
+<div class="grain"></div>
 
 <header class="site">
   <div class="wrap">
@@ -18,101 +31,139 @@
       <a href="https://github.com/alanroyce2010" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.linkedin.com/in/alan-royce-gabriel-596252128/" target="_blank" rel="noopener">LinkedIn</a>
       <a href="mailto:alanroyce2010@gmail.com">Email</a>
+      <button class="theme-toggle" aria-label="Toggle dark mode">&#9790;</button>
     </nav>
   </div>
 </header>
 
-<section class="post-header">
-  <div class="wrap">
-    <div class="kicker">2026 &middot; Origami / Digital Fabrication</div>
-    <h1>Why flat-foldable origami gives you a 3D-printer toolpath for free</h1>
+<div class="blog-layout">
+  <div class="article-wrapper">
+
+    <!-- Sidebar TOC -->
+    <aside class="article-toc" aria-label="Table of contents">
+      <ul>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#theorem">The Theorem That Does the Work</a></li>
+        <li><a href="#not-whole-story">Eulerian Isn't the Whole Story</a></li>
+      </ul>
+    </aside>
+
+    <!-- Article -->
+    <main>
+      <article>
+        <header>
+          <div class="kicker">2026 &middot; Origami / Digital Fabrication</div>
+          <h1>Why flat-foldable origami gives you a 3D-printer toolpath for free</h1>
+        </header>
+
+        <div class="content">
+          <div id="introduction">
+            <p>
+              Here's a fact about FDM printing that's easy to underrate: print quality
+              depends a lot on whether a layer is deposited as one continuous stroke.
+              Every time the nozzle has to stop, retract, and travel somewhere else to
+              resume, that's a place for stringing, blobbing, or a visible seam. The
+              ideal infill pattern for a layer is one long, crossing-free, single stroke:
+              the toolpath equivalent of drawing a shape without lifting your pen and
+              without crossing your own line.
+            </p>
+
+            <p>
+              For arbitrary infill geometry, generating that stroke is a real graph
+              problem, and the existing state of the art (Gupta, Krishnamoorthy, and
+              Dreifus) solves it by force: it quadruples the edges of the infill graph
+              (the "Euler transformation") until every vertex has even degree, which is
+              the condition a graph needs to admit an Eulerian circuit: a closed walk
+              that uses every edge exactly once. That works, but it's expensive: 4&times;
+              the edges means a lot of mesh-refinement overhead before you've printed
+              anything.
+            </p>
+          </div>
+
+          <h2 id="theorem">The Theorem That Does the Work</h2>
+
+          <p>
+            Flat-foldable origami crease patterns give you the even-degree condition
+            for free, and the reason is a 40-year-old piece of origami math:
+            <strong>Maekawa's theorem</strong>. It says that at every interior vertex
+            of a flat-foldable crease pattern, the number of mountain folds minus the
+            number of valley folds is always exactly &plusmn;2 (never 0, never
+            4, always 2). A vertex with, say, 3 mountains and 1 valley has degree 4. One
+            with 4 mountains and 2 valleys has degree 6. Every valid combination that
+            satisfies Maekawa's parity condition forces the vertex's total degree to be
+            even.
+          </p>
+
+          <p>
+            Even degree at every vertex is exactly Euler's 1736 condition for a graph
+            to have an Eulerian circuit. So a flat-foldable crease pattern's crease
+            graph doesn't need to be transformed into an Eulerian graph: it already
+            is one, as a structural consequence of being foldable at all. No refinement
+            step, no quadrupled edges. You get the toolpath's basic shape for free just
+            by choosing infill that happens to also be a valid origami tessellation
+            (a Miura-ori pattern, for instance).
+          </p>
+
+          <figure>
+            <img src="../images/toolpath/crease-tour.svg" alt="A Miura crease pattern (mountain folds dashed red, valley folds dashed blue) with a single continuous zigzag tour threading through every cell.">
+            <figcaption>The crease graph on the left is natively Eulerian; the solid line is one continuous tour of it.</figcaption>
+          </figure>
+
+          <h2 id="not-whole-story">Eulerian Isn't the Whole Story</h2>
+
+          <p>
+            An Eulerian circuit guarantees you use every edge exactly once, but it
+            doesn't guarantee the walk never crosses itself in the plane, and a
+            self-crossing toolpath is exactly the kind of travel move you were trying
+            to avoid. The graph-theoretic object for "Eulerian and crossing-free" is
+            called an <strong>A-trail</strong>, and whether one exists depends on a
+            per-vertex <strong>transition system</strong>: at each vertex, which pairs
+            of edges does the walk connect as it passes through? Get the pairing
+            right at every vertex simultaneously and the global walk never crosses
+            itself.
+          </p>
+
+          <p>
+            This is where a flat-foldable pattern's mountain/valley assignment
+            plausibly does double duty: the same assignment that makes the pattern
+            fold flat might also fix a transition system that makes its Eulerian tour
+            crossing-free, with no extra choices needed. Whether that connection holds
+            in general, and how to patch it at a boundary (where clipping a
+            tessellation to an arbitrary part outline creates odd-degree vertices), is
+            the open research question this thesis is chasing down. See the
+            <a href="../projects/origami-toolpath-thesis/index.html">project page</a>
+            for where that stands.
+          </p>
+
+          <div class="callout">
+            <p>
+              The short version: an origami crease pattern isn't just a pretty infill
+              shape. Maekawa's theorem means its graph is natively Eulerian, which is
+              most of what a single-stroke 3D-printer toolpath needs, and it comes from
+              the pattern being foldable, not from anything you had to add.
+            </p>
+          </div>
+        </div>
+
+        <div class="citation-block" id="citation">
+          <h2>Cite this post</h2>
+          <div class="citation-code" id="citation-text">@misc{gabriel2026origami,
+  author = {Gabriel, Alan Royce},
+  title  = {Why Flat-Foldable Origami Gives You a 3D-Printer Toolpath for Free},
+  year   = {2026},
+  url    = {https://alanroyce.dev/blog/why-flat-foldable-origami-gives-a-toolpath-for-free.html}
+}</div>
+          <button class="citation-copy" id="cite-copy">Copy</button>
+        </div>
+
+        <a href="../blog.html" class="back-link">&larr; Back to blog</a>
+      </article>
+    </main>
   </div>
-</section>
-
-<div class="project-body wrap">
-
-  <p>
-    Here's a fact about FDM printing that's easy to underrate: print quality
-    depends a lot on whether a layer is deposited as one continuous stroke.
-    Every time the nozzle has to stop, retract, and travel somewhere else to
-    resume, that's a place for stringing, blobbing, or a visible seam. The
-    ideal infill pattern for a layer is one long, crossing-free, single stroke:
-    the toolpath equivalent of drawing a shape without lifting your pen and
-    without crossing your own line.
-  </p>
-
-  <p>
-    For arbitrary infill geometry, generating that stroke is a real graph
-    problem, and the existing state of the art (Gupta, Krishnamoorthy, and
-    Dreifus) solves it by force: it quadruples the edges of the infill graph
-    (the "Euler transformation") until every vertex has even degree, which is
-    the condition a graph needs to admit an Eulerian circuit: a closed walk
-    that uses every edge exactly once. That works, but it's expensive: 4&times;
-    the edges means a lot of mesh-refinement overhead before you've printed
-    anything.
-  </p>
-
-  <h2>The theorem that does the work</h2>
-  <p>
-    Flat-foldable origami crease patterns give you the even-degree condition
-    for free, and the reason is a 40-year-old piece of origami math:
-    <strong>Maekawa's theorem</strong>. It says that at every interior vertex
-    of a flat-foldable crease pattern, the number of mountain folds minus the
-    number of valley folds is always exactly &plusmn;2 (never 0, never
-    4, always 2). A vertex with, say, 3 mountains and 1 valley has degree 4. One
-    with 4 mountains and 2 valleys has degree 6. Every valid combination that
-    satisfies Maekawa's parity condition forces the vertex's total degree to be
-    even.
-  </p>
-  <p>
-    Even degree at every vertex is exactly Euler's 1736 condition for a graph
-    to have an Eulerian circuit. So a flat-foldable crease pattern's crease
-    graph doesn't need to be transformed into an Eulerian graph: it already
-    is one, as a structural consequence of being foldable at all. No refinement
-    step, no quadrupled edges. You get the toolpath's basic shape for free just
-    by choosing infill that happens to also be a valid origami tessellation
-    (a Miura-ori pattern, for instance).
-  </p>
-
-  <figure>
-    <img src="../images/toolpath/crease-tour.svg" alt="A Miura crease pattern (mountain folds dashed red, valley folds dashed blue) with a single continuous zigzag tour threading through every cell.">
-    <figcaption>The crease graph on the left is natively Eulerian; the solid line is one continuous tour of it.</figcaption>
-  </figure>
-
-  <h2>Eulerian isn't the whole story</h2>
-  <p>
-    An Eulerian circuit guarantees you use every edge exactly once, but it
-    doesn't guarantee the walk never crosses itself in the plane, and a
-    self-crossing toolpath is exactly the kind of travel move you were trying
-    to avoid. The graph-theoretic object for "Eulerian and crossing-free" is
-    called an <strong>A-trail</strong>, and whether one exists depends on a
-    per-vertex <strong>transition system</strong>: at each vertex, which pairs
-    of edges does the walk connect as it passes through? Get the pairing
-    right at every vertex simultaneously and the global walk never crosses
-    itself.
-  </p>
-  <p>
-    This is where a flat-foldable pattern's mountain/valley assignment
-    plausibly does double duty: the same assignment that makes the pattern
-    fold flat might also fix a transition system that makes its Eulerian tour
-    crossing-free, with no extra choices needed. Whether that connection holds
-    in general, and how to patch it at a boundary (where clipping a
-    tessellation to an arbitrary part outline creates odd-degree vertices), is
-    the open research question this thesis is chasing down. See the
-    <a href="../projects/origami-toolpath-thesis/index.html">project page</a>
-    for where that stands.
-  </p>
-
-  <div class="callout">
-    The short version: an origami crease pattern isn't just a pretty infill
-    shape. Maekawa's theorem means its graph is natively Eulerian, which is
-    most of what a single-stroke 3D-printer toolpath needs, and it comes from
-    the pattern being foldable, not from anything you had to add.
-  </div>
-
 </div>
 
-
+<script src="../js/theme.js"></script>
+<script src="../js/blog.js"></script>
 
 </body>
 </html>
