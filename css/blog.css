@@ -369,7 +369,10 @@ article .content figure img {
   width: 100%;
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  background: var(--bg-alt);
+  /* fixed light backing so transparent figures stay readable in dark mode */
+  background: #fdfcfa;
+  padding: 6px;
+  box-sizing: border-box;
 }
 article .content figcaption {
   font-size: 0.82rem;
