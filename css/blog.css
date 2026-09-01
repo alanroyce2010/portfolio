@@ -339,6 +339,21 @@ article .content pre code {
   font-size: 0.85em;
 }
 
+/* Syntax-highlighting token colors for highlight.js (loaded per-post by the
+   blog build). No stock hljs theme is used; these follow the site palette
+   in both light and dark mode. */
+article .content pre .hljs-keyword,
+article .content pre .hljs-operator { color: var(--rose); }
+article .content pre .hljs-string,
+article .content pre .hljs-regexp { color: var(--sage); }
+article .content pre .hljs-number,
+article .content pre .hljs-literal,
+article .content pre .hljs-built_in { color: var(--gold); }
+article .content pre .hljs-comment,
+article .content pre .hljs-meta { color: var(--muted); font-style: italic; }
+article .content pre .hljs-title { color: var(--fg); font-weight: 600; }
+article .content pre .hljs-params { color: var(--fg); }
+
 article .content .callout {
   border-left: 3px solid var(--sage);
   background: var(--sage-soft);
