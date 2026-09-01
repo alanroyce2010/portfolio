@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contraction in belief space, or why robots are allowed to forget &middot; Alan Royce Gabriel</title>
+  <meta name="description" content="The Bayes filter of a partially observed robot is a contraction mapping, and the mechanism is counterintuitive, so this post measures it: motion noise erases wrong priors, observations provably cannot, and the two live in different metrics.">
+  <link rel="stylesheet" href="../css/blog.css">
+  <!-- KaTeX for math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ]
+    });"></script>
+  <!-- highlight.js for code syntax highlighting -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.11.1/highlight.min.js"
+    onload="hljs.configure({ cssSelector: 'pre code[class*=language-]' }); hljs.highlightAll();"></script>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="site">
+  <div class="wrap">
+    <a class="site-name" href="../index.html">Alan Royce Gabriel</a>
+    <nav class="site-nav">
+      <a href="../index.html">Projects</a>
+      <a href="../about.html">About</a>
+      <a class="current" href="../blog.html">Blog</a>
+      <a href="https://github.com/alanroyce2010" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/alan-royce-gabriel-596252128/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:alanroyce2010@gmail.com">Email</a>
+      <button class="theme-toggle" aria-label="Toggle dark mode">&#9790;</button>
+    </nav>
+  </div>
+</header>
+
+<div class="blog-layout">
+  <div class="article-wrapper">
+
+    <aside class="article-toc" aria-label="Table of contents">
+      <ul>
+      <li><a href="#a-fact-every-roboticist-knows-and-few-can-cite">A Fact Every Roboticist Knows and Few Can Cite</a></li>
+      <li><a href="#the-belief-is-the-state">The Belief Is the State</a></li>
+      <li><a href="#the-filter-is-the-interesting-contraction">The Filter Is the Interesting Contraction</a></li>
+      <li><a href="#what-this-buys-a-planner">What This Buys a Planner</a></li>
+      <li><a href="#a-corridor-to-measure-it-in">A Corridor to Measure It In</a></li>
+      <li><a href="#design-rules-hiding-in-the-rate">Design Rules Hiding in the Rate</a></li>
+      <li><a href="#where-this-lives-in-the-literature">Where This Lives in the Literature</a></li>
+      </ul>
+    </aside>
+
+    <main>
+      <article>
+        <header>
+          <div class="kicker">2026 &middot; Robotics / Filtering</div>
+          <h1>Contraction in belief space, or why robots are allowed to forget</h1>
+        </header>
+
+        <div class="content">
+<h2 id="a-fact-every-roboticist-knows-and-few-can-cite">A Fact Every Roboticist Knows and Few Can Cite</h2>
+
+<p>Initialize Monte Carlo Localization with a completely wrong prior, drive the robot around, and it recovers. Everyone who has run a particle filter on a real robot has seen this, most treat it as a pleasant empirical habit of well-tuned systems, and it is neither: it is a contraction mapping theorem. Better, the theorem's mechanism is genuinely counterintuitive. The thing that erases a wrong prior is not your sensor. It is your <em>motion noise</em>, and there is a precise sense in which the sensor never helps at all.</p>
+
+<p>This post lays out that theory, all of it long known and attributed below, and then does something I have not seen done: measures the mechanism directly, on the smallest robot that exhibits it. None of the mathematics is new. The experiments, and one sharp counterintuitive split they expose, are built for this post.</p>
+
+<h2 id="the-belief-is-the-state">The Belief Is the State</h2>
+
+<p>A robot that cannot observe its state keeps a belief $b$, a probability distribution over states, and Åström observed in 1965 that the belief is itself a fully observed state: a POMDP is an MDP over the simplex. Two different operators then act on belief space, and both turn out to be contractions.</p>
+
+<p>The first is routine: the Bellman operator of the belief-MDP contracts <em>value functions over beliefs</em> in the sup norm with factor $\gamma$, exactly as in any discounted MDP. That gives value iteration over beliefs and is the basis of classical POMDP solvers. This post is about the second operator, which is stranger: the Bayes filter itself, contracting <em>beliefs</em>.</p>
+
+<h2 id="the-filter-is-the-interesting-contraction">The Filter Is the Interesting Contraction</h2>
+
+<p>The filter alternates two maps. Prediction pushes the belief through the motion kernel, $b^- = P^{\top} b$, and the update reweights by the observation likelihood, $b'(x) \propto g(y \mid x) \, b^-(x)$. The right distance for analyzing this pair is not Euclidean and not total variation but the <strong>Hilbert projective metric</strong>,</p>
+
+<p>$$ d_{\mathrm{Hil}}(b, b') = \log \frac{\max_x \, b(x) / b'(x)}{\min_x \, b(x) / b'(x)} $$</p>
+
+<p>a distance between rays that ignores normalization and measures worst-case <em>ratio</em> disagreement. Two classical facts make it the right choice, both at the heart of the filter stability literature (Atar and Zeitouni 1997, Le Gland and Oudjane 2004):</p>
+
+<ol>
+  <li><strong>Prediction is a strict contraction</strong> whenever the kernel is mixing. Birkhoff's theorem gives the factor $\tanh(\Delta(P)/4) \lt 1$, where $\Delta(P)$ is the kernel's projective diameter.</li>
+  <li><strong>The Bayes update is an isometry.</strong> Two beliefs multiplied by the <em>same</em> positive likelihood have every ratio $b(x)/b'(x)$ unchanged, so $d_{\mathrm{Hil}}$ does not move, exactly, and normalization is invisible to a projective metric.</li>
+</ol>
+
+<p>Chain them and you get exponential forgetting: run two filters from different priors $b_0$ and $b_0'$, feed them the <em>same</em> observation stream, and</p>
+
+<p>$$ d_{\mathrm{Hil}}(b_t, b_t') \le \tanh\big(\Delta(P)/4\big)^{t} \, d_{\mathrm{Hil}}(b_0, b_0') $$</p>
+
+<p>no matter what the observations are. That "no matter what" deserves a double take. The observations appear nowhere in the bound because the update step contributes exactly nothing to the merging: every bit of prior-forgetting is purchased by the mixing in the motion model. The experiments below make this visible.</p>
+
+<h2 id="what-this-buys-a-planner">What This Buys a Planner</h2>
+
+<p>Filter contraction is not a curiosity; it is the license for most of what practical partially observed planning does.</p>
+
+<ul>
+  <li><strong>Bounded memory is enough.</strong> Kara and Yüksel showed that under exponential filter stability, policies that condition on a finite window of recent observations are near-optimal, with error decaying exponentially in the window length, and that finite-memory Q-learning converges. The contraction rate literally prices the memory a controller needs.</li>
+  <li><strong>Particle filters don't drift.</strong> Uniform-in-time error bounds for particle approximations (Del Moral and Guionnet, and the Hilbert-metric route in Le Gland and Oudjane) exist <em>because</em> the ideal filter contracts: approximation errors injected at each step are forgotten at the same rate as wrong priors, instead of accumulating.</li>
+  <li><strong>Robotics practice already banks on it.</strong> Kidnapped-robot recovery in MCL, and the standard habit of inflating a motion model's noise beyond its physically measured value, are both this theorem being used without being cited.</li>
+</ul>
+
+<h2 id="a-corridor-to-measure-it-in">A Corridor to Measure It In</h2>
+
+<p>The smallest robot that exhibits all of it: a cyclic corridor of $N = 40$ cells, doors at cells 3, 10, 23, and 30, a pattern chosen to be invariant under rotation by half the corridor (that symmetry becomes an experiment later; an asymmetric variant adds one door at cell 5). Each step the robot advances one cell, except with slip probability $\varepsilon$ it ends up anywhere; the door sensor lies with probability $0.1$. The slip term is what makes the kernel mixing, and for this kernel the projective diameter has a closed form, $\Delta = 2 \log(1 + N(1 - \varepsilon)/\varepsilon)$, so Birkhoff's bound is computable exactly rather than gestured at. The whole filter is a dozen lines:</p>
+
+<pre><code class="language-python">def predict(b, eps):                    # drift one cell, or slip anywhere
+    return (1 - eps) * np.roll(b, 1) + eps * b.mean()
+
+def update(b, y, doors, delta=0.1):     # door sensor with error rate delta
+    door = np.array([1.0 if x in doors else 0.0 for x in range(len(b))])
+    agree = door if y == 1 else 1 - door
+    b = b * (agree * (1 - delta) + (1 - agree) * delta)
+    return b / b.sum()
+
+def hilbert(b, c):
+    r = b / c
+    return np.log(r.max()) - np.log(r.min())</code></pre>
+
+<p>Every experiment below runs two copies of this filter from different priors on a shared observation stream and watches distances.</p>
+
+<h3>Forgetting is a straight line</h3>
+
+<p>Start one filter nearly certain the robot is at cell 3 and the other with a uniform prior, about as disagreeable a pair as the simplex offers. The Hilbert distance between them on a log axis is a straight line: geometric forgetting, as promised.</p>
+
+<figure>
+  <img src="../images/belief-contraction/forgetting_rates.png" alt="Left: log-scale Hilbert distance between two filters falling linearly over 90 steps. Right: measured per-step contraction factor versus slip probability, below the Birkhoff bound everywhere.">
+  <figcaption>Left: forgetting at slip probability 0.05. Right: the measured factor honors Birkhoff's bound at every noise level and approaches the Dobrushin line at large noise.</figcaption>
+</figure>
+
+<p>Sweeping the slip probability and averaging the measured per-step factor over 12 seeds:</p>
+
+<pre><code>eps      measured   Birkhoff bound   1 - eps
+0.005    0.9113     0.9778           0.995
+0.020    0.8956     0.9558           0.980
+0.050    0.8779     0.9300           0.950
+0.100    0.8571     0.9000           0.900
+0.200    0.7640     0.8539           0.800
+0.500    0.4935     0.7298           0.500</code></pre>
+
+<p>The bound holds at every noise level, and it is honest but loose: it is a worst case over all belief pairs, while the sensor keeps the actual pair sharp, which turns out to contract faster. Notice the practical reading of the first column: even one part in two hundred of motion slip already buys roughly nine percent forgetting per step.</p>
+
+<h3>The staircase: observations never merge beliefs</h3>
+
+<p>Now record the Hilbert distance three times per step: before prediction, after prediction, after the update. The claim from the theory is that the second interval does nothing. Not approximately nothing: nothing.</p>
+
+<figure>
+  <img src="../images/belief-contraction/staircase.png" alt="Alternating trace of Hilbert distance within each filter step: prediction segments drop, Bayes update segments are exactly flat.">
+  <figcaption>Every drop is a prediction. Every flat segment is a Bayes update. Over the whole run the largest change across an update was 8.9e-16, which is machine epsilon.</figcaption>
+</figure>
+
+<p>Across the entire run, the largest change in $d_{\mathrm{Hil}}$ across any Bayes update was $8.9 \times 10^{-16}$: floating-point roundoff. The isometry is implicit in the stability proofs, where the update is dispatched in a line as projectively harmless, but I have not seen it exhibited as a measurement, and it earns a moment of discomfort. The sensor, the part of the robot you paid for, contributes <em>exactly zero</em> to reconciling two hypotheses' ratio structure. What the sensor does do is concentrate both beliefs near the truth, which is a statement about accuracy, not about prior-robustness. Those are different quantities, and the next experiment splits them apart completely.</p>
+
+<h3>A two-by-two of failure and rescue</h3>
+
+<p>Take two priors related by the corridor's symmetry, point masses at cells 0 and 20, and cross two switches: motion deterministic versus mixing ($\varepsilon = 0.05$), and doors symmetric versus one extra asymmetric door. Track both the Hilbert distance and total variation, each relative to its initial value.</p>
+
+<figure>
+  <img src="../images/belief-contraction/two_by_two.png" alt="Four panels crossing motion noise and door symmetry, each showing Hilbert and TV distance between the two filters over 300 steps.">
+  <figcaption>Top left: nothing ever merges. Top right: TV falls six orders of magnitude while the Hilbert distance stays at exactly 1.00 of its initial value. Bottom row: mixing motion collapses both metrics.</figcaption>
+</figure>
+
+<p>Three of the panels behave, and one of them is the point of this post.</p>
+
+<ul>
+  <li><strong>Deterministic motion, symmetric doors:</strong> both metrics sit at exactly $1.00$ forever. Deterministic motion is a permutation of cells, hence a Hilbert <em>isometry</em>, and the symmetric door pattern makes every observation equally likely under both hypotheses. The two beliefs are carried around the corridor as a rigid pair. A robot in a perfectly symmetric world provably cannot relocalize, whatever its sensor quality.</li>
+  <li><strong>Deterministic motion, one extra door:</strong> total variation falls by six orders of magnitude, in visible steps, one per lap as the robot passes the asymmetric door and the likelihood punishes the wrong hypothesis. Meanwhile the Hilbert distance stays at exactly $1.00$ of its initial value for all 300 steps. <strong>The two metrics flatly disagree about whether the robot has forgotten its prior</strong>, and both are right: the observations have moved essentially all the <em>mass</em> to the correct hypothesis (what TV measures) while leaving the beliefs' <em>ratio structure</em> untouched (what Hilbert measures), as the isometry demands.</li>
+  <li><strong>Mixing motion, either door pattern:</strong> both metrics crash geometrically to numerical zero.</li>
+</ul>
+
+<p>So there are two distinct forgetting mechanisms, and they live in different metrics. Noise-driven forgetting is unconditional: it works whatever the observations say, it is what the Hilbert contraction captures, and it is the strong guarantee. Observation-driven disambiguation is conditional on the world being asymmetric enough to tell hypotheses apart; it shows up in total variation, and its theory, stability through observability rather than mixing, is genuinely harder and belongs to van Handel's line of work rather than to Birkhoff's. The corridor makes the split exact: turn off the noise and only the second mechanism survives; make the world symmetric and neither does.</p>
+
+<h3>The kidnapped robot</h3>
+
+<p>Finally the classic stress test. The true robot moves deterministically while the filter deliberately models slip at $\varepsilon = 0.05$, which is precisely the noise-inflation habit mentioned earlier, and at step 40 the robot is teleported 17 cells. Two views of the aftermath:</p>
+
+<figure>
+  <img src="../images/belief-contraction/kidnapped.png" alt="Left: belief mass near the true cell, high before the kidnap, crashing at it, then recovering in bursts. Right: log-scale Hilbert distance between the kidnapped filter and an oracle filter, falling geometrically.">
+  <figcaption>Left: confidence collapses at the kidnap and returns in bursts as evidence arrives, crossing 0.8 only 108 steps later. Right: against an oracle initialized at the truth, the kidnapped filter merges geometrically at factor 0.93 per step.</figcaption>
+</figure>
+
+<p>The right panel is the theorem again: after the kidnap, the filter's belief is just a wrong prior, so pair it with an oracle filter initialized at the true position and fed the same observations, and the two merge geometrically, at measured factor $0.927$ per step, consistent with the $0.878 \pm 0.027$ forgetting rate measured in the first experiment. The left panel is the part practitioners actually watch, belief mass near the truth, and it recovers far more slowly, crossing $0.8$ only 108 steps after the kidnap, in bursts timed to door passages. The gap between the panels is the same split as before: forgetting the wrong prior is fast and noise-driven; re-earning <em>confidence</em> is evidence accumulation, paced by how often the world shows the robot something identifying.</p>
+
+<h2 id="design-rules-hiding-in-the-rate">Design Rules Hiding in the Rate</h2>
+
+<p>Read as engineering, the experiments compress into rules of thumb.</p>
+
+<ul>
+  <li><strong>Noise inflation is not a hack; it purchases robustness at a computable rate.</strong> Adding slip probability $\varepsilon$ to the motion model, beyond what the wheels physically do, buys unconditional prior-forgetting at a rate you can measure, and the kidnapped-robot run only recovers because of it.</li>
+  <li><strong>A better sensor buys accuracy, not prior-robustness.</strong> The staircase is exact: updates are Hilbert isometries. If initialization error or model surprise is the concern, the motion model is the knob, not the sensor budget.</li>
+  <li><strong>Symmetry, not sensor noise, is the enemy of relocalization.</strong> The top-left panel is a proof by demonstration: in a symmetric world both mechanisms die at once, and no filter tuning revives them. One asymmetric landmark restores disambiguation; a little noise restores unconditional forgetting; the two fixes are independent.</li>
+  <li><strong>The measured rate prices memory.</strong> A per-step factor of $0.88$ means influence from 50 steps ago is attenuated by $0.88^{50} \approx 0.002$: the quantitative license, in the Kara and Yüksel sense, for a controller that keeps a short window rather than a lifetime of history.</li>
+</ul>
+
+<h2 id="where-this-lives-in-the-literature">Where This Lives in the Literature</h2>
+
+<p>Everything theoretical above is known; the map of who established what:</p>
+
+<ul>
+  <li><strong>Åström (1965).</strong> The belief-MDP reduction: the belief is a sufficient statistic and a fully observed state. <strong>Smallwood and Sondik (1973)</strong> made value iteration over beliefs concrete for POMDPs.</li>
+  <li><strong>Atar and Zeitouni (1997), "Exponential stability for nonlinear filtering".</strong> Filter forgetting via the Birkhoff contraction, the approach this post's theory sections follow.</li>
+  <li><strong>Le Gland and Oudjane (2004), <a href="https://projecteuclid.org/journals/annals-of-applied-probability/volume-14/issue-1/Stability-and-uniform-approximation-of-nonlinear-filters-using-the-Hilbert/10.1214/aoap/1075828050.full" target="_blank" rel="noopener">"Stability and uniform approximation of nonlinear filters using the Hilbert metric"</a>, Annals of Applied Probability.</strong> The canonical treatment: pathwise contraction, the update handled as projectively harmless, and uniform particle filter bounds from the same machinery.</li>
+  <li><strong>van Handel (2009), "Observability and nonlinear filtering".</strong> The other mechanism: stability from observations distinguishing states, covering non-mixing regimes where Birkhoff's route gives nothing, exactly the top-right panel's phenomenon.</li>
+  <li><strong>Del Moral and Guionnet (2001).</strong> Uniform-in-time particle filter error bounds from filter stability.</li>
+  <li><strong>Kara and Yüksel, <a href="https://jmlr.org/papers/v23/20-1152.html" target="_blank" rel="noopener">"Near optimality of finite memory feedback policies in POMDPs"</a>, JMLR 2022, and <a href="https://arxiv.org/abs/2103.12158" target="_blank" rel="noopener">finite-memory Q-learning under filter stability</a>.</strong> The planning payoff: contraction prices the memory a near-optimal controller needs.</li>
+  <li>*<em>Thrun, Burgard, and Fox, </em>Probabilistic Robotics<em> (2005).</em>* The corridor-and-doors world this post's robot is a miniature of, and the practice (MCL, noise inflation, kidnapped-robot tests) the theory explains.</li>
+</ul>
+
+<p>The experiments, the staircase exhibit, and the framing of the two-metrics split are built for this post; the isometry itself is implicit in the 1997 and 2004 proofs, and the indifference of Birkhoff contraction to observations is folklore in that community. I have not found either demonstrated as a measurement.</p>
+
+<div class="callout">
+<p>A partially observed robot forgets its wrong beliefs for two separate reasons living in two separate metrics. Motion noise contracts the Hilbert projective metric unconditionally, at a Birkhoff-bounded geometric rate, and observations contribute exactly nothing to it: the Bayes update is an isometry, flat to machine epsilon. Observations instead move probability mass onto the right hypothesis, which is total variation merging, conditional on the world being asymmetric enough to identify. Sensors buy accuracy; noise buys forgiveness; symmetry defeats both; and the measured contraction rate is the price list for how much memory a planner actually needs.</p>
+</div>
+        </div>
+
+        <div class="citation-block" id="citation">
+          <h2>Cite this post</h2>
+          <div class="citation-code" id="citation-text">@misc{gabriel2026beliefspace,
+  author = {Gabriel, Alan Royce},
+  title  = {Contraction in belief space, or why robots are allowed to forget},
+  year   = {2026},
+  url    = {https://alanroyce.dev/blog/why-robots-are-allowed-to-forget.html}
+}</div>
+          <button class="citation-copy" id="cite-copy">Copy</button>
+        </div>
+
+        <a href="../blog.html" class="back-link">&larr; Back to blog</a>
+      </article>
+    </main>
+  </div>
+</div>
+
+<script src="../js/theme.js"></script>
+<script src="../js/blog.js"></script>
+
+</body>
+</html>
