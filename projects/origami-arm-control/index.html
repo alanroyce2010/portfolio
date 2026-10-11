@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Model-Based Control and Policy Distillation for Origami Arms · Alan Royce Gabriel</title>
+<meta name="description" content="A coupled dynamic model for a robotic arm that combines motorized joints with pneumatic origami segments. Model-based control tracks 2.5× tighter than a decoupled PID baseline in simulation; distilling the MPC into a neural policy retains 93–94% settled success on the tested goals at much lower decision cost.">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<div class="grain"></div>
+<header class="site">
+  <div class="wrap">
+    <a class="site-name" href="../../index.html">Alan Royce Gabriel</a>
+    <nav class="site-nav">
+      <a href="../../index.html">Projects</a>
+      <a href="../../about.html">About</a>
+      <a href="../../blog.html">Blog</a>
+      <a href="https://github.com/alanroyce2010" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/alan-royce-gabriel-596252128/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:alanroyce2010@gmail.com">Email</a>
+      <button class="theme-toggle" aria-label="Toggle dark mode">&#9790;</button>
+    </nav>
+  </div>
+</header>
+<section class="project-header">
+  <div class="wrap">
+    <div class="kicker">Robotics &amp; Control</div>
+    <h1>Model-Based Control and Policy Distillation for Origami Arms</h1>
+    <p class="subtitle">A coupled dynamic model for a robotic arm that combines motorized joints with pneumatic origami segments. Model-based control tracks 2.5× tighter than a decoupled PID baseline in simulation; distilling the MPC into a neural policy retains 93–94% settled success on the tested goals at much lower decision cost.</p>
+    <div class="meta-row">
+      <div><strong>Status</strong>Computational study · 2026</div>
+      <div><strong>Methods</strong>State-space modeling, MPC, behavior cloning, DAgger</div>
+    </div>
+  </div>
+</section>
+<main class="project-body wrap">
+  <h2>The problem</h2>
+  <p>Each motor joint and pneumatic segment influences the others. Treating them as independent control loops hides that coupling, while planning with the full dynamics makes model-predictive control expensive.</p>
+  <figure>
+    <img src="../../images/origami-arm-control/overview.png" alt="Simulation view of a three-segment hybrid origami arm reaching toward a target" loading="lazy">
+    <figcaption>Three-segment hybrid arm in simulation, combining rigid motorized joints and pressure-actuated extension segments.</figcaption>
+  </figure>
+  <h2>Model and control</h2>
+  <p>The model carries six states per segment, including chamber pressure and crease hysteresis. Comparing PID, LQR and MPC shows that coupled control helps most on strongly coupled joints; the nearly decoupled pitch joint remains competitive with PID. Behavior cloning followed by DAgger transfers the MPC teacher’s decisions into a compact neural policy.</p>
+  <h2>Findings</h2>
+  <p>The coupled controllers track 2.5× tighter than the decoupled baseline at lower torque. The distilled policies achieve roughly 93–94% settled success in the reported two- and three-segment evaluations, with no collisions observed in those evaluation runs. Success requires remaining within 10 mm of the goal for 20 steps. Pressure-aware goal selection also addresses a high-pressure limit cycle that restricts the teacher’s usable workspace.</p>
+  <h2>Scope</h2>
+  <p>These are simulation results, not a hardware demonstration or a collision-safety guarantee. Performance depends on the tested goal distribution and model; the reported mass-mismatch robustness evaluation is for the two-segment arm.</p>
+  <div class="tag-row"><span class="tag">Model-Predictive Control</span><span class="tag">Soft Robotics</span><span class="tag">Policy Distillation</span><span class="tag">DAgger</span></div>
+  <p class="project-back"><a href="../../index.html">← All projects</a></p>
+</main>
+<script src="../../js/theme.js"></script>
+</body>
+</html>

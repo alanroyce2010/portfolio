@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Alan Royce Gabriel · Portfolio</title>
-<meta name="description" content="Computational origami engineering: flat-foldable toolpaths for 3D printing, generative co-design, and inverse-designed mechanisms.">
+<meta name="description" content="Research in robotics, model-based control, machine learning, and computational origami: selected projects by Alan Royce Gabriel.">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -28,12 +28,12 @@
 
 <section class="intro">
   <div class="wrap">
-    <h1>Computational origami engineering</h1>
+    <h1>Robotics, control, and machine learning</h1>
     <p>
-      M.Tech student at IIT Madras working at the intersection of computational
-      geometry, generative machine learning, and mechanism design. I use
-      folding as a lens for manufacturing, generative design, and soft
-      robotics. Below is a selection of ongoing research.
+      M.Tech student at IIT Madras working across model-based control,
+      machine learning, and computational design. My research spans origami
+      robots, muscle dynamics, policy distillation, and the evaluation of
+      learned systems. Below is a selection of recent and ongoing work.
     </p>
   </div>
 </section>
@@ -42,32 +42,62 @@
   <div class="wrap">
 
     <article class="project-entry">
-      <a class="thumb-link" href="projects/flowmpc/index.html">
-        <div class="thumb">
-          <img src="images/flowmpc/pareto_cube.png" alt="Time/accuracy Pareto front comparing stock, linear, and jointly-optimized flow compensation on a 20mm cube">
-        </div>
+      <a class="thumb-link" href="projects/origami-arm-control/index.html">
+        <div class="thumb"><img src="images/origami-arm-control/overview.png" alt="Simulation view of a three-segment hybrid origami arm reaching toward a target" loading="lazy"></div>
       </a>
       <div class="entry-body">
-        <h2 class="entry-title"><a href="projects/flowmpc/index.html">flowmpc: Offline Model-Predictive Flow Compensation for FFF Printing</a></h2>
-        <div class="entry-meta">Independent Research · 2026</div>
-        <div class="entry-desc">
-          <p>
-            Filament compresses in the melt zone before it exits the nozzle, so printers
-            under- and over-extrude through every acceleration and deceleration. A sliced
-            G-code file is already the printer's entire future trajectory, so this project
-            solves the same pressure-dynamics tracking problem a real-time controller would,
-            once, offline, and bakes the result back into ordinary G-code for a stock,
-            unmodified Bambu Lab X1C. The jointly-optimized speed and flow schedule dominates
-            speed-agnostic compensation on the time/accuracy Pareto front and stays robust
-            under model mismatch.
-          </p>
-        </div>
-        <div class="tag-row">
-          <span class="tag">Model-Predictive Control</span>
-          <span class="tag">Constrained Optimization</span>
-          <span class="tag">FDM / Digital Fabrication</span>
-          <span class="tag">System Identification</span>
-        </div>
+        <h2 class="entry-title"><a href="projects/origami-arm-control/index.html">Model-Based Control and Policy Distillation for Origami Arms</a></h2>
+        <div class="entry-meta">Computational study · 2026</div>
+        <div class="entry-desc"><p>A coupled dynamic model for a robotic arm that combines motorized joints with pneumatic origami segments. Model-based control tracks 2.5× tighter than a decoupled PID baseline in simulation; distilling the MPC into a neural policy retains 93–94% settled success on the tested goals at much lower decision cost.</p></div>
+        <div class="tag-row"><span class="tag">Model-Predictive Control</span><span class="tag">Soft Robotics</span><span class="tag">Policy Distillation</span><span class="tag">DAgger</span></div>
+      </div>
+    </article>
+
+    <article class="project-entry">
+      <a class="thumb-link" href="projects/rl-interp-distillation/index.html">
+        <div class="thumb"><img src="images/rl-interp-distillation/overview.png" alt="Four-task comparison of holdout error, intervention consistency and return under feature-selection controls" loading="lazy"></div>
+      </a>
+      <div class="entry-body">
+        <h2 class="entry-title"><a href="projects/rl-interp-distillation/index.html">Behavioral Fidelity Is Not Mechanism</a></h2>
+        <div class="entry-meta">Research manuscript · 2026</div>
+        <div class="entry-desc"><p>Can interpretability improve the distillation of neural control policies into decision trees? Across 27 teachers on four tasks, matched-state augmentation improves response agreement, but ordinary sampling controls recover most of the gain. The study tests what the metric measures and when feature selection removes information needed for control.</p></div>
+        <div class="tag-row"><span class="tag">Policy Distillation</span><span class="tag">Interpretability</span><span class="tag">Reinforcement Learning</span><span class="tag">Evaluation</span></div>
+      </div>
+    </article>
+
+    <article class="project-entry">
+      <a class="thumb-link" href="projects/muscle-activation-control/index.html">
+        <div class="thumb"><img src="images/muscle-activation-control/overview.png" alt="Modeled elbow flexion and extension strength compared with measurements from Buchanan and Amis" loading="lazy"></div>
+      </a>
+      <div class="entry-body">
+        <h2 class="entry-title"><a href="projects/muscle-activation-control/index.html">Four Linearizations at Every Muscle Equilibrium</a></h2>
+        <div class="entry-meta">Computational study · 2026</div>
+        <div class="entry-desc"><p>Hill-type muscle models with switched activation dynamics and a force–velocity kink do not have one local linearization at equilibrium. They have four directional branches. This study derives the switches and measures how choosing the wrong branch affects prediction and closed-loop control.</p></div>
+        <div class="tag-row"><span class="tag">Biomechanics</span><span class="tag">Hybrid Systems</span><span class="tag">Model-Predictive Control</span><span class="tag">Numerical Methods</span></div>
+      </div>
+    </article>
+
+    <article class="project-entry">
+      <a class="thumb-link" href="projects/cot-faithfulness/index.html">
+        <div class="thumb"><img src="images/cot-faithfulness/overview.png" alt="Intermediate-answer instability: 18 percent for repeated prompts, 30 percent for whitespace changes, 38 percent for rewording and 45 percent for reversed comparisons" loading="lazy"></div>
+      </a>
+      <div class="entry-body">
+        <h2 class="entry-title"><a href="projects/cot-faithfulness/index.html">When a Reasoning-Faithfulness Metric Meets Hard Math</a></h2>
+        <div class="entry-meta">Research study · September 2026</div>
+        <div class="entry-desc"><p>Transferring a reversed-comparison test to hard mathematics initially looks like evidence of unfaithful reasoning. Whitespace and rewording controls reveal a different explanation: the model’s stated intermediate answers are sensitive to small prompt changes, without clear evidence of direction-driven rationalization.</p></div>
+        <div class="tag-row"><span class="tag">AI Evaluation</span><span class="tag">Chain of Thought</span><span class="tag">Interpretability</span><span class="tag">Experimental Controls</span></div>
+      </div>
+    </article>
+
+    <article class="project-entry">
+      <a class="thumb-link" href="projects/biohybrid-recruitment-control/index.html">
+        <div class="thumb"><img src="images/biohybrid-recruitment-control/overview.png" alt="Optical recruitment capacity plotted against circumference divided by thickness and by square-root thickness" loading="lazy"></div>
+      </a>
+      <div class="entry-body">
+        <h2 class="entry-title"><a href="projects/biohybrid-recruitment-control/index.html">Optical Recruitment Control for Biohybrid Muscle</a></h2>
+        <div class="entry-meta">Computational study · August 2026</div>
+        <div class="entry-desc"><p>Can patterned light act as a synthetic motor pool for engineered muscle? A calibrated simulation finds a wider range of smooth, low force under spatial stimulation, while refuting the original endurance claim. Optical transport bounds how many tissue sectors can be addressed independently.</p></div>
+        <div class="tag-row"><span class="tag">Biohybrid Robotics</span><span class="tag">Optogenetics</span><span class="tag">System Identification</span><span class="tag">Simulation</span></div>
       </div>
     </article>
 
@@ -125,68 +155,6 @@
           <span class="tag">Graph Theory</span>
           <span class="tag">FDM / Digital Fabrication</span>
           <span class="tag">WebAssembly</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="project-entry">
-      <a class="thumb-link" href="projects/origami-diffuse/index.html">
-        <div class="thumb">
-          <img src="images/origami-diffuse/deploy_from_flat.gif" alt="A flat crease pattern deploying into a tall 3D corrugated structure">
-        </div>
-      </a>
-      <div class="entry-body">
-        <h2 class="entry-title"><a href="projects/origami-diffuse/index.html">origami-diffuse: Feasibility-Aware Generative Co-Design of Origami Soft Robots</a></h2>
-        <div class="entry-meta">Independent Research · 2026</div>
-        <div class="entry-desc">
-          <p>
-            Origami fold-space is a measure-zero, NP-hard-to-decide manifold:
-            almost no random pattern actually folds flat. This project builds a
-            diffusion-based generator that stays on that manifold by combining a
-            learned <em>foldability</em> certificate with a differentiable
-            <em>behavior</em> certificate, so generated designs are simultaneously
-            buildable and functional. Guided sampling lifts the exact-oracle
-            feasible rate on unseen sizes from 0% to 30%, and co-design discovers
-            a genuine deploy-from-flat morphology: a flat sheet that folds into
-            a tall, compacted 3D structure.
-          </p>
-        </div>
-        <div class="tag-row">
-          <span class="tag">Diffusion Models</span>
-          <span class="tag">Constrained Generation</span>
-          <span class="tag">Graph Neural Networks</span>
-          <span class="tag">Differentiable Simulation</span>
-        </div>
-      </div>
-    </article>
-
-    <article class="project-entry">
-      <a class="thumb-link" href="projects/muscle-origami-linkage/index.html">
-        <div class="thumb">
-          <img src="images/muscle-linkage/solved_mechanisms.png" alt="Three inverse-designed radial-leg linkages tracing grasp, bend, and iris-closing motions">
-        </div>
-      </a>
-      <div class="entry-body">
-        <h2 class="entry-title"><a href="projects/muscle-origami-linkage/index.html">Inverse-Designed Origami Linkages for Biohybrid Muscle Actuation</a></h2>
-        <div class="entry-meta">Research Proposal + Computational Prototype · 2026</div>
-        <div class="entry-desc">
-          <p>
-            Engineered muscle tissue only contracts along one axis, yet grasping,
-            multi-axis bending, and iris-like closing all need multi-directional
-            output from that single input. This project designs a family of flat,
-            fabricable "radial-leg" linkages and uses gradient-free inverse
-            optimization (CMA-ES) to find one that converts a single physiological
-            muscle contraction into a prescribed multi-directional motion,
-            reaching sub-2mm tracking error and 4.5-7.7&times; displacement
-            amplification, competitive with hand-tuned single-direction designs
-            in the literature.
-          </p>
-        </div>
-        <div class="tag-row">
-          <span class="tag">Inverse Kinematics</span>
-          <span class="tag">CMA-ES Optimization</span>
-          <span class="tag">Mechanism Design</span>
-          <span class="tag">Biohybrid Robotics</span>
         </div>
       </div>
     </article>

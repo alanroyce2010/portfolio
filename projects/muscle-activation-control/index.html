@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Four Linearizations at Every Muscle Equilibrium · Alan Royce Gabriel</title>
+<meta name="description" content="Hill-type muscle models with switched activation dynamics and a force–velocity kink do not have one local linearization at equilibrium. They have four directional branches. This study derives the switches and measures how choosing the wrong branch affects prediction and closed-loop control.">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<div class="grain"></div>
+<header class="site">
+  <div class="wrap">
+    <a class="site-name" href="../../index.html">Alan Royce Gabriel</a>
+    <nav class="site-nav">
+      <a href="../../index.html">Projects</a>
+      <a href="../../about.html">About</a>
+      <a href="../../blog.html">Blog</a>
+      <a href="https://github.com/alanroyce2010" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/alan-royce-gabriel-596252128/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:alanroyce2010@gmail.com">Email</a>
+      <button class="theme-toggle" aria-label="Toggle dark mode">&#9790;</button>
+    </nav>
+  </div>
+</header>
+<section class="project-header">
+  <div class="wrap">
+    <div class="kicker">Neuromuscular Robotics</div>
+    <h1>Four Linearizations at Every Muscle Equilibrium</h1>
+    <p class="subtitle">Hill-type muscle models with switched activation dynamics and a force–velocity kink do not have one local linearization at equilibrium. They have four directional branches. This study derives the switches and measures how choosing the wrong branch affects prediction and closed-loop control.</p>
+    <div class="meta-row">
+      <div><strong>Status</strong>Computational study · 2026</div>
+      <div><strong>Methods</strong>Hill-type muscle models, piecewise-linear systems, MPC</div>
+    </div>
+  </div>
+</section>
+<main class="project-body wrap">
+  <h2>Why four branches?</h2>
+  <p>At equilibrium, excitation equals activation and fibre velocity is zero. Those are precisely the switching surfaces for asymmetric activation dynamics and the force–velocity relation. Their two independent switches yield four directional Jacobians. The derivation checks the continuity conditions for piecewise-linear systems and gives closed-form slope ratios.</p>
+  <figure>
+    <img src="../../images/muscle-activation-control/overview.png" alt="Modeled elbow flexion and extension strength compared with measurements from Buchanan and Amis" loading="lazy">
+    <figcaption>Model checks against published elbow-strength measurements. Agreement varies by muscle group and reference dataset; these checks do not validate the controller on hardware.</figcaption>
+  </figure>
+  <h2>Prediction and control</h2>
+  <p>At the representative posture, using the wrong branch produces errors of 14–75% of the small activating-step response. In the reported closed-loop comparison, a blended linearization overshoots a raising step eight to nine times as much as the naive, sign-test and relinearizing rules. Relinearizing at the measured state reduces lowering-step overshoot from 0.37° to 0.02°.</p>
+  <h2>Beyond one operating point</h2>
+  <p>The analysis extends to multiple flexors, parameter sets and an elastic tendon. Antagonist co-contraction can shrink the force–velocity kink toward cancellation. Delay experiments motivate a predictor that accounts for queued inputs; controller weighting and measurement noise affect which rule performs best.</p>
+  <h2>Scope</h2>
+  <p>The work combines a mathematical derivation with simulation and checks against published strength data. The relinearizing controller has not been validated on hardware. The reported overshoot ratios refer to the raising step under the study’s baseline settings, not every motion or tuning.</p>
+  <div class="tag-row"><span class="tag">Biomechanics</span><span class="tag">Hybrid Systems</span><span class="tag">Model-Predictive Control</span><span class="tag">Numerical Methods</span></div>
+  <p class="project-back"><a href="../../index.html">← All projects</a></p>
+</main>
+<script src="../../js/theme.js"></script>
+</body>
+</html>

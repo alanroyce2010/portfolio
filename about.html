@@ -30,8 +30,8 @@
   <div class="wrap">
     <h1>About</h1>
     <p class="subtitle">
-      M.Tech student, IIT Madras. I use folding as a lens for manufacturing,
-      generative design, and robotics.
+      M.Tech student, IIT Madras. I work on robotics, model-based control,
+      machine learning, and computational design.
     </p>
   </div>
 </section>
@@ -43,42 +43,42 @@
     program at IIT Madras. My thesis, advised by Prof. Pulkit Verma, argues
     that flat-foldable origami tessellations are natively Eulerian, so they
     give 3D-printer toolpaths their crossing-free, single-stroke structure for
-    free, instead of forcing it with mesh refinement. Everything else on this
-    site grew out of chasing that same idea into other places it applies:
-    generative design and mechanism synthesis.
+    free, instead of forcing it with mesh refinement. That work now sits alongside research on coupled robotic dynamics,
+    muscle control, policy distillation, and the evaluation of learned systems.
   </p>
 
   <div class="facts-row">
     <div><strong>Program</strong>M.Tech, Integrated Design &amp; Innovation</div>
     <div><strong>Institution</strong>IIT Madras</div>
     <div><strong>Advisor</strong>Prof. Pulkit Verma</div>
-    <div><strong>Focus</strong>Computational origami engineering</div>
+    <div><strong>Focus</strong>Robotics, control &amp; machine learning</div>
   </div>
 
   <h2>What ties the projects together</h2>
   <p>
-    Origami is a strange kind of design space: almost every random crease
-    pattern doesn't fold flat at all, and deciding whether a discrete
-    mountain/valley assignment folds globally is NP-hard. That sounds like a
-    liability. In practice it's the opposite: the small amount of structure
-    that <em>does</em> survive (Maekawa's parity condition, Kawasaki's angle
-    condition, rigid-fold closure) turns out to be exactly the leverage needed
-    to solve problems that look unrelated on the surface:
+    I study how a model’s structure shapes what we can design, control, and
+    learn from it. Sometimes that structure is geometric: a crease pattern
+    or a fabricable linkage. Sometimes it is dynamical: coupling between
+    pneumatic segments, or the switches in a muscle model. In machine
+    learning, I ask what a compact policy preserves and what an evaluation
+    metric can actually establish.
   </p>
   <ul>
-    <li>a graph-parity theorem gives a 3D-printer toolpath its crossing-free structure for free (the FDM thesis);</li>
-    <li>a learned version of that same feasibility condition can steer a generative model onto a measure-zero manifold instead of off of it (origami-diffuse);</li>
-    <li>a family of flat-fabricable linkages turns "one muscle, many motions" from a hand-tuning problem into an inverse-optimization problem (the biohybrid linkage project).</li>
+    <li><a href="projects/origami-arm-control/index.html">Origami-arm control</a> combines coupled dynamics with MPC and policy distillation.</li>
+    <li><a href="projects/muscle-activation-control/index.html">Muscle activation control</a> studies how directional linearizations affect prediction and feedback.</li>
+    <li><a href="projects/rl-interp-distillation/index.html">Interpretability-guided distillation</a> tests response agreement, feature sufficiency, and sampling controls.</li>
+    <li><a href="projects/cot-faithfulness/index.html">Reasoning evaluation</a> examines what a faithfulness metric measures when transferred to hard mathematics.</li>
+    <li><a href="projects/biohybrid-recruitment-control/index.html">Biohybrid recruitment</a> tests the force-control benefits and physical limits of patterned stimulation.</li>
   </ul>
   <p class="pull-quote">
-    A clean piece of mathematics (a parity condition, a closure constraint, a
-    symmetry) doing real engineering work: making something fabricable,
-    learnable, or controllable that would otherwise be intractable by brute
-    force.
+    Build the model, test what it predicts, and let the controls change the conclusion.
   </p>
 
   <h2>Tools I reach for</h2>
   <div class="tag-row">
+    <span class="tag">Model-Predictive Control</span>
+    <span class="tag">Reinforcement Learning</span>
+    <span class="tag">System Identification</span>
     <span class="tag">Python</span>
     <span class="tag">NumPy</span>
     <span class="tag">PyTorch</span>

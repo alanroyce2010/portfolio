@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>When a Reasoning-Faithfulness Metric Meets Hard Math · Alan Royce Gabriel</title>
+<meta name="description" content="Transferring a reversed-comparison test to hard mathematics initially looks like evidence of unfaithful reasoning. Whitespace and rewording controls reveal a different explanation: the model’s stated intermediate answers are sensitive to small prompt changes, without clear evidence of direction-driven rationalization.">
+<link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+<div class="grain"></div>
+<header class="site">
+  <div class="wrap">
+    <a class="site-name" href="../../index.html">Alan Royce Gabriel</a>
+    <nav class="site-nav">
+      <a href="../../index.html">Projects</a>
+      <a href="../../about.html">About</a>
+      <a href="../../blog.html">Blog</a>
+      <a href="https://github.com/alanroyce2010" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/alan-royce-gabriel-596252128/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:alanroyce2010@gmail.com">Email</a>
+      <button class="theme-toggle" aria-label="Toggle dark mode">&#9790;</button>
+    </nav>
+  </div>
+</header>
+<section class="project-header">
+  <div class="wrap">
+    <div class="kicker">AI Evaluation</div>
+    <h1>When a Reasoning-Faithfulness Metric Meets Hard Math</h1>
+    <p class="subtitle">Transferring a reversed-comparison test to hard mathematics initially looks like evidence of unfaithful reasoning. Whitespace and rewording controls reveal a different explanation: the model’s stated intermediate answers are sensitive to small prompt changes, without clear evidence of direction-driven rationalization.</p>
+    <div class="meta-row">
+      <div><strong>Status</strong>Research study · September 2026</div>
+      <div><strong>Methods</strong>Controlled prompt perturbations, PutnamBench, statistical analysis</div>
+    </div>
+  </div>
+</section>
+<main class="project-body wrap">
+  <h2>The transfer test</h2>
+  <p>The reversed-comparison test asks logically opposite comparative questions and checks consistency. This project transfers that idea from factual recall to pairs of hard Putnam mathematics problems with Lean-verified answers, while tracking the model’s stated intermediate answers.</p>
+  <figure>
+    <img src="../../images/cot-faithfulness/overview.png" alt="Intermediate-answer instability: 18 percent for repeated prompts, 30 percent for whitespace changes, 38 percent for rewording and 45 percent for reversed comparisons" loading="lazy">
+    <figcaption>Forty problem pairs per condition. Reversing the comparison differs from identical re-sampling, but is not statistically distinguishable from the whitespace and cosmetic-rewording controls.</figcaption>
+  </figure>
+  <h2>A ladder of controls</h2>
+  <p>Intermediate answers change in 45% of reversed-comparison pairs, compared with 18% under identical re-sampling (p = 0.015). However, whitespace-only changes already produce 30% instability and cosmetic rewording produces 38%; neither is distinguishable from the reversal condition in this sample.</p>
+  <h2>What the result supports</h2>
+  <p>Answer flips favor the requested direction only 12 out of 20 times (p = 0.50). The evidence points to sensitivity of the reasoning trace to prompt wording, concentrated in particular problems, rather than demonstrated motivated reasoning. A metric that is informative in one task domain can conflate different mechanisms after transfer.</p>
+  <h2>Scope</h2>
+  <p>This is a limited study of one model and a small problem set, not a general verdict on chain-of-thought faithfulness. It measures stated intermediate answers rather than internal computation; non-significant differences do not establish equivalence.</p>
+  <div class="tag-row"><span class="tag">AI Evaluation</span><span class="tag">Chain of Thought</span><span class="tag">Interpretability</span><span class="tag">Experimental Controls</span></div>
+  <p class="project-back"><a href="../../index.html">← All projects</a></p>
+</main>
+<script src="../../js/theme.js"></script>
+</body>
+</html>
