@@ -1,0 +1,23 @@
+{
+  "origami-sim": {
+    "asset": "images/origami-sim/miura.gif",
+    "source": "Original simulator animation already included in the portfolio."
+  },
+  "origami-arm-control": {
+    "asset": "images/origami-arm-control/overview.png",
+    "source": "/Users/alanroyce/Projects/origami-arm-control/results/paper_icra/figures/live_student_n3_pose_only.png"
+  },
+  "origami-toolpath-thesis": {
+    "asset": "images/toolpath/paper-miura-infill.png",
+    "source": "/Users/alanroyce/SORO/origami/paper/3dPrint_ICRA27/3dPrint_ICRA27.pdf",
+    "page": 4,
+    "figure": 2,
+    "extraction": "Rendered with pdftoppm; figure and subfigure labels extracted without redrawing or recoloring."
+  },
+  "muscle-activation-control": {
+    "asset": "images/muscle-activation-control/raising-lowering.mp4",
+    "poster": "images/muscle-activation-control/raising-lowering-poster.jpg",
+    "source": "/Users/alanroyce/Projects/muscle-activation-control/results/submission_video/arm_clips/current_state.mp4",
+    "extraction": "First 23 seconds: raising and lowering; H.264 MP4 without audio. Original motion magnification and playback speed retained."
+  }
+}

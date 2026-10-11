@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Behavioral Fidelity Is Not Mechanism · Alan Royce Gabriel</title>
 <meta name="description" content="Can interpretability improve the distillation of neural control policies into decision trees? Across 27 teachers on four tasks, matched-state augmentation improves response agreement, but ordinary sampling controls recover most of the gain. The study tests what the metric measures and when feature selection removes information needed for control.">
-<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/style.css?v=20261011-media-fit">
 </head>
 <body>
 <div class="grain"></div>
@@ -35,6 +35,11 @@
   </div>
 </section>
 <main class="project-body wrap">
+  <figure class="concept-overview">
+    <img src="../../images/rl-interp-distillation/concept-overview-vivid.png" alt="Neural teacher and decision-tree student compared on matched state responses" loading="lazy">
+    <figcaption>Conceptual overview: neural teacher and decision-tree student compared on matched state responses. Illustrated schematic.</figcaption>
+  </figure>
+
   <h2>The question</h2>
   <p>A compact policy can match a neural teacher’s actions on familiar states without responding the same way when inputs change. This study asks whether selecting response-validated features or using them to construct training pairs adds value beyond ordinary off-policy sampling.</p>
   <figure>

@@ -1,0 +1,66 @@
+{
+  "style": "Create one polished scientific overview illustration for a research portfolio thumbnail, landscape 4:3. Warm off-white background (#fdfcfa), charcoal fine outlines, restrained sage green, dusty rose and muted gold accents matching a quiet editorial academic website. Clean precise technical illustration with subtle volume, generous negative space and a single clear visual story. Main objects large and recognizable at 300px wide. Use at most three short labels, set in clean highly legible sans-serif. No title, watermark, invented results, numerical plots, photoreal lab, or decorative circuitry. This is a conceptual schematic, not experimental evidence. ",
+  "figures": [
+    {
+      "slug": "origami-arm-control",
+      "brief": "Subject: coupled origami robotic arm control. Show a three-segment robot with alternating dark rigid rotary joints and faceted accordion/Kresling pneumatic extension segments, reaching a small target dot. Beside it a small controller block labeled 'MPC' transfers via a clear arrow to a compact neural-network block labeled 'Policy', which sends a control arrow into the arm. Visual story: detailed model-based planning distilled into a compact controller. Mechanism is a simulated robotic arm, not a humanoid. Label arm 'Hybrid arm'.",
+      "asset": "images/origami-arm-control/overview_corrected_v4.png",
+      "original_asset": "images/origami-arm-control/concept-overview.png",
+      "generated_asset": "images/origami-arm-control/concept-overview-vivid.png",
+      "source_note": "User-selected overview_corrected_v4.png; original simulation screenshot retained on the detail page.",
+      "generator": "Gemini 3.1 Pro via agy; Antigravity image-generator generate_image",
+      "revision": "Use only MPC teacher, Distilled policy, Simulated arm labels; unnumbered candidate-trajectory schematic, no quantitative chart; simulation-derived arm reference; white background with blue, teal and yellow accents."
+    },
+    {
+      "slug": "rl-interp-distillation",
+      "brief": "Subject: evaluating control-policy distillation. Large neural network on left labeled 'Teacher', clear distillation arrow leading to a compact branching decision tree on right labeled 'Student'. Below them two paired state cards feed into both models, with a small comparison bridge labeled 'Response test'. Show distinct input paths and matched output tokens without suggesting the mechanisms are identical. Clear simple conceptual workflow, no graphs or performance claims.",
+      "asset": "images/rl-interp-distillation/concept-overview-vivid.png",
+      "original_asset": "images/rl-interp-distillation/concept-overview.png"
+    },
+    {
+      "slug": "muscle-activation-control",
+      "brief": "Subject: four directional local models at a muscle equilibrium. Show a simple anatomically plausible schematic elbow with upper arm, forearm hinged at elbow, and one rose-colored flexor muscle. Beside it a central equilibrium point at the crossing of two thin orthogonal switching lines, producing four distinct softly tinted quadrants each containing a small local tangent-plane glyph. Labels only 'Muscle', 'Equilibrium', 'Four branches'. Conceptual four-branch model, not four muscles, no plotted data, no claims of hardware testing.",
+      "asset": "images/muscle-activation-control/raising-lowering.mp4",
+      "original_asset": "images/muscle-activation-control/concept-overview.png",
+      "source_note": "Original simulation video, raising and lowering segment. See project-source-figures.json."
+    },
+    {
+      "slug": "cot-faithfulness",
+      "brief": "Subject: testing sensitivity of mathematical reasoning to prompt changes. At top-left a clean mathematical prompt card with a simple equation glyph branches into three smaller prompt cards with subtly different spacing and arrangement of identical symbols. All enter one central language-model block, then branch into reasoning trace cards with highlighted changing intermediate tokens. Three labels only: 'Prompt variants', 'Model', 'Compare reasoning'. Visual story is controlled prompt variation revealing response instability, no humanoid brain, no fabricated numerical findings.",
+      "asset": "images/cot-faithfulness/concept-overview-vivid.png",
+      "revision": "Replace the central OpenAI logo with an unbranded neural-network glyph; preserve the rest of the illustration.",
+      "original_asset": "images/cot-faithfulness/concept-overview.png"
+    },
+    {
+      "slug": "biohybrid-recruitment-control",
+      "brief": "Subject: patterned light controlling engineered muscle. Main view: a rose-colored ring of engineered muscle tissue stretched around two small supporting posts, divided conceptually into sectors; overhead three offset blue-green light beams activate separate sectors at staggered times. Small lower schematic shows three rows of offset pulse rectangles merging into a smooth conceptual force stroke, no axes or numerical data. Labels 'Patterned light', 'Muscle ring', 'Smooth force'. This is a conceptual simulation schematic, not a real laboratory photo. Make optical sectors and staggered timing understandable.",
+      "asset": "images/biohybrid-recruitment-control/concept-overview-vivid.png",
+      "original_asset": "images/biohybrid-recruitment-control/concept-overview.png"
+    },
+    {
+      "slug": "apex-mpi",
+      "brief": "Subject: distributed reinforcement learning with prioritized replay. Three small actor blocks on left containing tiny stylized game-screen glyphs stream experiences by arrows into one large central replay-buffer block represented as stacked colored memory tiles with a small binary tree. From central buffer arrow to one learner block on right showing a neural-network glyph and GPU chip, with a thin return arrow to actor group representing refreshed weights. Three labels only: 'Actors', 'Replay', 'Learner'. Clear large central system elements, not generic server art. No numerical claims.",
+      "asset": "images/apex-mpi/concept-overview-vivid.png",
+      "original_asset": "images/apex-mpi/concept-overview.png"
+    },
+    {
+      "slug": "origami-toolpath-thesis",
+      "brief": "Subject: flat-foldable crease patterns as continuous 3D-printer toolpaths. A horizontal sequence of three large technical objects: flat Miura-style parallelogram crease grid; same grid with one continuous rose-colored highlighted serpentine route; print nozzle depositing that path onto a flat print bed. Two short connecting arrows. Labels only 'Crease pattern', 'Continuous path', 'Print'. Geometry must be a clean repetitive zigzag parallelogram tessellation; do not invent curved origami folds. Conceptual pipeline illustration, no measured results.",
+      "asset": "images/toolpath/papervizagent/flat-foldable-origami-overview-v2.png",
+      "original_asset": "images/toolpath/concept-overview.png",
+      "generated_asset": "images/toolpath/papervizagent/flat-foldable-origami-overview-v2.png",
+      "source_note": "Generated with PaperVizAgent using paper-miura-infill.png as the reference. Prompt: images/toolpath/papervizagent/refinement-prompt.txt."
+    },
+    {
+      "slug": "origami-sim",
+      "brief": "Subject: GPU origami physics simulator. A flat Miura-ori crease mesh on left transitions by an arrow to a partly folded accordion-like Miura surface on right. Middle small inset shows nodes connected by springs and a GPU chip glyph, linking geometry to physics. Use clear alternating mountain and valley crease lines and faceted folded panels, logically consistent flat and folded pattern. Three labels 'Crease mesh', 'GPU physics', 'Folded shape'. No printer, no robot, no invented performance plot.",
+      "asset": "images/origami-sim/miura.gif",
+      "original_asset": "images/origami-sim/concept-overview.png",
+      "generated_asset": "images/origami-sim/concept-overview-vivid.png",
+      "source_note": "Actual project visual; see project-source-figures.json."
+    }
+  ],
+  "generator": "Built-in image_gen",
+  "purpose": "Conceptual project overviews; original result figures retained on detail pages.",
+  "color_revision": "project-overview-recolor.json"
+}

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Flat-Foldable Origami Tessellations as Native Continuous Toolpaths for FDM · Alan Royce Gabriel</title>
-<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/style.css?v=20261011-media-fit">
 </head>
 <body>
 
@@ -48,6 +48,11 @@
 </section>
 
 <div class="project-body wrap">
+  <figure class="project-overview">
+    <img src="../../images/toolpath/papervizagent/flat-foldable-origami-overview-v2.png" alt="Overview of flat-foldable Miura lattice, boundary repair, and continuous FDM infill" loading="lazy">
+    <figcaption>Schematic overview: a flat-foldable Miura lattice is clipped and its boundary repaired to produce continuous FDM infill. Generated with PaperVizAgent using the paper’s figure as a reference.</figcaption>
+  </figure>
+
 
   <h2>The idea</h2>
   <p>
@@ -70,16 +75,7 @@
     free, with no refinement step.
   </p>
 
-  <figure>
-    <img src="../../images/toolpath/crease-tour.svg" alt="A Miura crease pattern (mountain folds dashed red, valley folds dashed blue) with a single continuous zigzag tour threading through every cell.">
-    <figcaption>
-      A schematic Miura-ori crease pattern (mountain / valley creases dashed)
-      with one continuous, crossing-free tour (solid) threading every cell,
-      the shape a printer toolpath needs to take.
-    </figcaption>
-  </figure>
-
-  <p>
+<p>
     The remaining question is whether that Eulerian tour can also be made
     <strong>crossing-free</strong>: the graph-theoretic object for that is an
     <strong>A-trail</strong>, an Eulerian circuit that never crosses itself under

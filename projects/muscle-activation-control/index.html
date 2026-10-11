@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Four Linearizations at Every Muscle Equilibrium · Alan Royce Gabriel</title>
 <meta name="description" content="Hill-type muscle models with switched activation dynamics and a force–velocity kink do not have one local linearization at equilibrium. They have four directional branches. This study derives the switches and measures how choosing the wrong branch affects prediction and closed-loop control.">
-<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/style.css?v=20261011-media-fit">
 </head>
 <body>
 <div class="grain"></div>
@@ -35,6 +35,11 @@
   </div>
 </section>
 <main class="project-body wrap">
+  <figure class="concept-overview">
+    <video autoplay loop muted playsinline controls preload="metadata" poster="../../images/muscle-activation-control/raising-lowering-poster.jpg" aria-label="Simulated Hill-type muscle raising and lowering an arm with measured-state relinearization"><source src="../../images/muscle-activation-control/raising-lowering.mp4" type="video/mp4"><img src="../../images/muscle-activation-control/raising-lowering-poster.jpg" alt="Simulated Hill-type muscle raising and lowering an arm with measured-state relinearization"></video>
+    <figcaption>Hill-type muscle simulation: raising and lowering with measured-state relinearization. The dashed line shows the target; muscle opacity indicates activation. Motion is magnified 12× about 60°, with playback at 0.1× speed.</figcaption>
+  </figure>
+
   <h2>Why four branches?</h2>
   <p>At equilibrium, excitation equals activation and fibre velocity is zero. Those are precisely the switching surfaces for asymmetric activation dynamics and the force–velocity relation. Their two independent switches yield four directional Jacobians. The derivation checks the continuity conditions for piecewise-linear systems and gives closed-form slope ratios.</p>
   <figure>

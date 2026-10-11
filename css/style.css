@@ -202,20 +202,20 @@ nav.site-nav a.current { color: var(--rose); }
 .project-entry .thumb {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--bg-alt);
   border: 1px solid var(--border);
   border-radius: var(--radius);
 }
+.project-entry .thumb video,
 .project-entry .thumb img,
 .project-entry .thumb svg {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: contain;
   display: block;
 }
-.project-entry .thumb-link { display: block; height: 100%; }
+.project-entry .thumb-link { display: block; }
 
 .entry-title {
   font-size: 22px;
@@ -346,7 +346,12 @@ nav.site-nav a.current { color: var(--rose); }
   margin: 28px 0;
   max-width: 900px;
 }
-.project-body figure img {
+.project-body figure img,
+.project-body figure video {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--bg-alt);

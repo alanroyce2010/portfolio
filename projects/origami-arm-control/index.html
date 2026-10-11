@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Model-Based Control and Policy Distillation for Origami Arms · Alan Royce Gabriel</title>
 <meta name="description" content="A coupled dynamic model for a robotic arm that combines motorized joints with pneumatic origami segments. Model-based control tracks 2.5× tighter than a decoupled PID baseline in simulation; distilling the MPC into a neural policy retains 93–94% settled success on the tested goals at much lower decision cost.">
-<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/style.css?v=20261011-media-fit">
 </head>
 <body>
 <div class="grain"></div>
@@ -35,6 +35,11 @@
   </div>
 </section>
 <main class="project-body wrap">
+  <figure class="project-overview">
+    <img src="../../images/origami-arm-control/overview_corrected_v4.png" alt="Overview of coupled origami-arm dynamics, two-timescale MPC, and real-time policy distillation with DAgger" loading="lazy">
+    <figcaption>System overview: coupled physical modeling, two-timescale model-predictive control, and real-time policy distillation with DAgger.</figcaption>
+  </figure>
+
   <h2>The problem</h2>
   <p>Each motor joint and pneumatic segment influences the others. Treating them as independent control loops hides that coupling, while planning with the full dynamics makes model-predictive control expensive.</p>
   <figure>

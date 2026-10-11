@@ -1,0 +1,38 @@
+{
+  "prompt": "Recolor this existing scientific overview illustration with a vivid, modern, high-contrast color theme. CHANGE COLORS ONLY. Preserve every object, geometry, layout, arrow, connection, symbol, equation, exact label and font position. Keep the clean white background and generous spacing. Replace muted sage/gray-green fills with saturated cobalt blue #2563EB and bright teal #00B8A9; replace dusty rose with energetic coral #FF5A5F; replace muddy gold/beige accents with clear golden yellow #FFBE0B. Dark navy #14213D for text, outlines and mechanical hardware. Use strong rich colored fills and crisp highlights rather than pale washed-out pastels. Keep translucent light beams translucent, and biological muscle recognizable in vivid coral-red; bones can remain ivory. Make fold panels visibly alternating blue and teal. Maintain shading and dimensional clarity. No new elements, logos, text, labels, or data. The result should feel lively and polished, with clear color separation at thumbnail size, not neon or fluorescent. Preserve the exact original aspect ratio and framing.",
+  "assets": [
+    {
+      "folder": "origami-arm-control",
+      "asset": "images/origami-arm-control/concept-overview-vivid.png"
+    },
+    {
+      "folder": "rl-interp-distillation",
+      "asset": "images/rl-interp-distillation/concept-overview-vivid.png"
+    },
+    {
+      "folder": "muscle-activation-control",
+      "asset": "images/muscle-activation-control/concept-overview-vivid.png"
+    },
+    {
+      "folder": "cot-faithfulness",
+      "asset": "images/cot-faithfulness/concept-overview-vivid.png"
+    },
+    {
+      "folder": "biohybrid-recruitment-control",
+      "asset": "images/biohybrid-recruitment-control/concept-overview-vivid.png"
+    },
+    {
+      "folder": "apex-mpi",
+      "asset": "images/apex-mpi/concept-overview-vivid.png"
+    },
+    {
+      "folder": "toolpath",
+      "asset": "images/toolpath/concept-overview-vivid.png"
+    },
+    {
+      "folder": "origami-sim",
+      "asset": "images/origami-sim/concept-overview-vivid.png"
+    }
+  ],
+  "generator": "Built-in image_gen"
+}
